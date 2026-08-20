@@ -1,6 +1,10 @@
 # Pola dan Sinyal — Validasi untuk Bahasa Indonesia
 
-> Status: **BELUM DIVALIDASI** (Milestone 1 — kerjaan utama sekarang)
+> Status: **VALIDASI AWAL n=5 (4 AI, 1 manusia) — BELUM SKALA BESAR**
+> ⚠️ 20 Agu 2026 (audit metodologi): semua status di bawah berdasar 5 sampel doang.
+> Bobot & threshold di rule engine bersifat **PROVISIONAL** dan WAJIB dikalibrasi ulang
+> begitu dataset M4 (subset Indonesia, ~2.000+ sampel) masuk di Milestone 3.
+> Jangan pernah dibaca sebagai angka final.
 > Sumber awal: Wikipedia "Signs of AI Writing" + riset pendukung.
 > Tugas: cek satu-satu pola di bawah, mana yang **muncul di tulisan AI Bahasa Indonesia** dan mana yang **bias/gak relevan** (sumber aslinya bias ke Bahasa Inggris).
 
@@ -20,7 +24,7 @@
 | 3 | Kontras "bukan X, tapi Y" | Negative parallelism | ⬜ belum dicek | — |
 | 4 | Basa-basi sisa chat | "semoga membantu", "jika ada pertanyaan lain" | ⬜ belum dicek | — |
 | 5 | Formatting berlebihan | Bold/list/heading tidak konsisten | ⬜ belum dicek | ⚠️ Lemah & rawan false positive — format jelek bisa dari pipeline rendering, bukan penulis. Kemungkinan dibuang dari v1 |
-| 6 | Em dash (—) berlebihan | Frekuensi tanda pisah relatif panjang teks | ✅ **terkonfirmasi (3 sampel)** | ⭐ Baseline: AI 1,4 / 6,8 / **3,7** per 1.000 kata prosa vs MANUSIA **0 & 0** (human_01, human_02). Catatan: em dash di sel tabel / rentang angka ("0,08 – 82,0") gak dihitung — cuma prosa. ⭐ **Bahkan setelah diedit manusia (case study #3), em dash-nya nyangkut** — sinyal paling tahan banting |
+| 6 | Em dash (—) berlebihan | Frekuensi tanda pisah relatif panjang teks | ✅ **terkonfirmasi (3 sampel)** | ⭐ Baseline: AI 1,4 / 6,8 / **3,7** per 1.000 kata prosa vs MANUSIA **0** (human_01 — satu-satunya baseline manusia). ⚠️ n=1 baseline manusia, belum cukup buat klaim kuat. Catatan: em dash di sel tabel / rentang angka ("0,08 – 82,0") gak dihitung — cuma prosa. ⭐ **Bahkan setelah diedit manusia (case study #3), em dash-nya nyangkut** — sinyal paling tahan banting |
 | 7 | Hedging berlebihan | "cenderung", "kemungkinan", "dapat dikatakan" | ⬜ belum dicek | — |
 | 8 | Transisi kaku/berulang | "selain itu", "di sisi lain", "dengan demikian" | ⬜ belum dicek | Catatan: "di sisi lain" kurang natural di ID? Cek |
 | 9 | Homogenitas panjang kalimat | Variance rendah (low burstiness) | ✅ **terkonfirmasi** | Cross-check 2 detector (Raya + Gemini): transisi mekanis & template pembuka berulang = sinyal kuat di AI text ID |

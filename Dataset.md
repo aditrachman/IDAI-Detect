@@ -21,10 +21,13 @@
 
 | Sumber | Contoh | Status | Catatan |
 |---|---|---|---|
-| Artikel berita Indonesia | Detik, Kompas, Antara | ⬜ belum | Cek lisensi/attribution — buat riset pribadi OK, publikasi lain cerita |
+| Artikel berita Indonesia | Detik, Kompas, Antara | ✅ 1 sampel | human_02 (Telaah Antara, 10 Mei 2026). ⚠️ Antara punya klausul larang crawling otomatis — diambil manual 1 artikel buat riset pribadi, bukan training massal. Atribusi dicatat di sini |
 | Esai mahasiswa (anonim) | Tugas kuliah (izin dulu) | ⬜ belum | WAJIB izin + anonimisasi |
-| Forum/blog | Kaskus, blog pribadi | ⬜ belum | Gaya bahasa beda-beda — bagus buat variasi |
+| Forum/blog | Kaskus, blog pribadi | ✅ 1 sampel | human_03 (blog.mengetik.com, 15 Mei 2026 — esai santai) |
+| Opini/kolom media | Media Indonesia dkk | ✅ 1 sampel | human_04 (opini Media Indonesia, 25 Mei 2026 — semi-akademik) |
 | Tulisan sendiri | Tulisan Tuan Adit | ⬜ belum | Termudah & pasti "human" |
+
+**Sampel manusia saat ini (20 Agu 2026):** human_01 (jurnal K-Means, akademik) + human_02 (telaah formal) + human_03 (blog santai) + human_04 (opini semi-akademik) — 4 gaya beda, semua verdict manusia di self-check strict. Masih butuh: chat casual, esai mahasiswa, tulisan sendiri.
 
 ## Teks AI
 

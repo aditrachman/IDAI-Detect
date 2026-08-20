@@ -292,30 +292,45 @@ def main(argv: list[str]) -> int:
     return 0
 
 
-def self_check(data_dir: Path) -> None:
-    """Self-check: 2 sampel AI kuat harus verdict AI, teks manusia harus manusia."""
+def self_check(data_dir: Path) -> int:
+    """Self-check strict: SEMUA sampel di data/ai/ harus verdict AI, SEMUA di data/human/
+    harus verdict manusia. Gagal → return 1 + daftar kegagalan (jujur, bukan disembunyiin).
+    Sampel AI yang diverdict salah = sinyal bobot/threshold belum layak, bukan error yang
+    boleh di-cherry-pick. Kalibrasi: Milestone 6 dengan data M4 (subset Indonesia).
+    """
     results = {}
     for label, folder in [("AI", "ai"), ("HUMAN", "human")]:
         for f in sorted((data_dir / folder).glob("*.txt")):
             r = analyze(f.read_text(encoding="utf-8"))
             results[f.name] = r
-            print(f"{label:<6} {f.name}: score={r['score']:.3f} verdict={r['verdict']}")
+            ok = r["verdict"] == ("AI" if label == "AI" else "manusia")
+            print(f"{label:<6} {f.name}: score={r['score']:.3f} verdict={r['verdict']:<8} {'OK' if ok else 'FAIL'}")
 
     ai_scores = [r["score"] for n, r in results.items() if n.startswith("ai")]
     hu_scores = [r["score"] for n, r in results.items() if n.startswith("human")]
     avg_ai, avg_hu = sum(ai_scores) / len(ai_scores), sum(hu_scores) / len(hu_scores)
     print(f"\navg AI={avg_ai:.3f} vs avg human={avg_hu:.3f}")
-    assert avg_ai > avg_hu, "SELF-CHECK GAGAL: rata-rata skor AI tidak di atas manusia!"
-    assert all(r["verdict"] == "AI" for n, r in results.items() if n in ("ai_01_aas_ml_attrition.txt", "ai_02_manga_recommender.txt")), \
-        "SELF-CHECK GAGAL: sampel AI kuat tidak diverdict AI!"
-    assert results["human_01_kmeans_peminatan_jurusan.txt"]["verdict"] == "manusia", \
-        "SELF-CHECK GAGAL: teks manusia diverdict bukan manusia!"
-    print("SELF-CHECK OK ✅")
+
+    fails = [
+        (n, "AI", r["verdict"]) for n, r in results.items()
+        if n.startswith("ai") and r["verdict"] != "AI"
+    ] + [
+        (n, "HUMAN", r["verdict"]) for n, r in results.items()
+        if n.startswith("human") and r["verdict"] != "manusia"
+    ]
+    if fails:
+        print(f"\nSELF-CHECK FAIL — {len(fails)} sampel tidak sesuai label:")
+        for n, label, verdict in fails:
+            print(f"  FAIL {n} (label {label}) -> verdict {verdict}")
+        print("Ini sinyal jujur: bobot/threshold belum layak. Kalibrasi di Milestone 6 (data M4).")
+        return 1
+    print("SELF-CHECK OK")
+    return 0
 
 
 if __name__ == "__main__":
     data_dir = Path(__file__).resolve().parent.parent / "data"
     if len(sys.argv) > 1 and sys.argv[1] == "--self-check":
-        self_check(data_dir)
+        raise SystemExit(self_check(data_dir))
     else:
         raise SystemExit(main(sys.argv[1:]))

@@ -5,6 +5,39 @@
 
 ---
 
+## 2026-08-20 — AUDIT METODOLOGI: self-check jujur, klaim diluruskan, threshold provisional
+
+**Tujuan:** Audit internal sebelum Milestone 3 — cek apakah klaim repo (README, self-check, Pola dan Sinyal) didukung data atau overclaim. Temuan utama: self-check lama cuma assert 2 dari 4 sampel AI (cherry-pick), nyembunyiin kegagalan nyata di ai_03 & ai_04.
+**Setup:** Rewrite `self_check()` di `engine/rule_engine.py` → sekarang assert SEMUA file di `data/ai/` (verdict harus AI) dan `data/human/` (verdict harus manusia), exit code 1 kalau ada yang gagal.
+**Hasil (baseline jujur, n=5):**
+- ai_01 (AAS ML attrition): score 0.448 → AI ✅ (margin 0.008 di atas threshold 0.44 — tipis banget)
+- ai_02 (Manga recommender): score 0.491 → AI ✅ (margin tipis)
+- ai_03 (Stroke CRISP-DM): score 0.366 → **abu-abu** ❌ (di bawah threshold)
+- ai_04 (Ringkasan Tama, ~208 kata): score 0.075 → **manusia** ❌ (miss total)
+- human_01 (K-Means): score 0.057 → manusia ✅
+- avg AI 0.345 vs avg human 0.057 → SELF-CHECK FAIL (exit 1), 2/4 sampel AI gagal
+**Temuan:**
+- ⚠️ Threshold `THRESHOLD_AI=0.44` kelihatan di-reverse-engineer dari 2 sampel yang lolos — pola klasik overfit n=5. Bukan angka dari prinsip/kalibrasi independen → **provisional, WAJIB kalibrasi ulang dengan M4 (Milestone 3/6)**
+- ⚠️ Baseline manusia cuma 1 dokumen — semua bobot divalidasi terhadap satu gaya. Risiko false-positive tinggi pada gaya manusia lain (laporan formal, esai, chat)
+- ⚠️ README lama overclaim "9 sinyal sudah divalidasi" → direvisi jadi "hipotesis awal dari 5 sampel"
+- ⚠️ Em dash: n=1 baseline manusia (human_01), bukan 2 seperti yang sempat tertulis
+- ✅ ai_04 (pendek, hybrid) membuktikan teks pendek = zona abu-abu → warning low_confidence sudah benar adanya
+**Keputusan / next step:**
+1. Self-check strict dipakai dari sekarang — kegagalan dilaporkan, bukan disembunyiin
+2. Tambah minimal 3-5 sampel manusia gaya beda ke `data/human/` sebelum klaim akurasi apapun
+3. Kalibrasi bobot & threshold DITUNDA ke Milestone 6 (setelah subset M4 masuk) — jangan reverse-engineer dari n=5
+4. README + Pola dan Sinyal disinkronkan ke level klaim yang didukung data
+
+**✅ TINDAK LANJUT (hari yang sama): 3 sampel manusia baru ditambahkan**
+- human_02 (Telaah Antara, opini analitis formal, 10 Mei 2026) → score 0.107 → manusia ✅
+- human_03 (blog.mengetik.com, esai santai, 15 Mei 2026) → score 0.025 → manusia ✅
+- human_04 (opini Media Indonesia, semi-akademik, 25 Mei 2026) → score 0.160 → manusia ✅
+- Baseline manusia sekarang 4 gaya: akademik / telaah formal / blog santai / opini semi-akademik — semua lolos
+- ⚠️ human_04 paling tinggi (0.160, mendekati threshold human 0.25) — konfirmasi risiko audit: teks manusia formal memakai sinyal "AI-like" (enumerasi Pertama/Kedua, transisi baku, closing analitik). Belum false positive, tapi ini batas yang harus dipantau di M3
+- Baseline self-check terbaru (n=9): avg AI 0.345 vs avg human 0.087 — 2/4 sampel AI masih FAIL (ai_03 abu-abu, ai_04 manusia) → exit 1. Kegagalan ini sekarang TERCATAT resmi, bukan tersembunyi
+
+---
+
 ## 2026-08-18 — Case study #2: dokumen HYBRID — prosa AI + data asli (Laporan Final Project Manga Recommender)
 
 **Tujuan:** Analisis "Laporan_Final_Project_Manga_Recomender.docx" (~4.300 kata, 317 paragraf) — buatan AI atau manusia?
