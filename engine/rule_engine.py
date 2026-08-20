@@ -295,33 +295,37 @@ def main(argv: list[str]) -> int:
 def self_check(data_dir: Path) -> int:
     """Self-check strict: SEMUA sampel di data/ai/ harus verdict AI, SEMUA di data/human/
     harus verdict manusia. Gagal → return 1 + daftar kegagalan (jujur, bukan disembunyiin).
+    Key pakai path relatif folder (bukan nama file doang) — sampel M4 punya nama file
+    yang sama di folder ai/ dan human/ (m4_id_XXX), key nama file doang bakal ketimpa.
     Sampel AI yang diverdict salah = sinyal bobot/threshold belum layak, bukan error yang
     boleh di-cherry-pick. Kalibrasi: Milestone 6 dengan data M4 (subset Indonesia).
     """
     results = {}
+    labels = {}
     for label, folder in [("AI", "ai"), ("HUMAN", "human")]:
         for f in sorted((data_dir / folder).glob("*.txt")):
+            key = f"{folder}/{f.name}"
             r = analyze(f.read_text(encoding="utf-8"))
-            results[f.name] = r
+            results[key] = r
+            labels[key] = label
             ok = r["verdict"] == ("AI" if label == "AI" else "manusia")
-            print(f"{label:<6} {f.name}: score={r['score']:.3f} verdict={r['verdict']:<8} {'OK' if ok else 'FAIL'}")
+            print(f"{label:<6} {key}: score={r['score']:.3f} verdict={r['verdict']:<8} {'OK' if ok else 'FAIL'}")
 
-    ai_scores = [r["score"] for n, r in results.items() if n.startswith("ai")]
-    hu_scores = [r["score"] for n, r in results.items() if n.startswith("human")]
+    ai_scores = [r["score"] for n, r in results.items() if labels[n] == "AI"]
+    hu_scores = [r["score"] for n, r in results.items() if labels[n] == "HUMAN"]
     avg_ai, avg_hu = sum(ai_scores) / len(ai_scores), sum(hu_scores) / len(hu_scores)
-    print(f"\navg AI={avg_ai:.3f} vs avg human={avg_hu:.3f}")
+    print(f"\navg AI={avg_ai:.3f} (n={len(ai_scores)}) vs avg human={avg_hu:.3f} (n={len(hu_scores)})")
 
     fails = [
-        (n, "AI", r["verdict"]) for n, r in results.items()
-        if n.startswith("ai") and r["verdict"] != "AI"
-    ] + [
-        (n, "HUMAN", r["verdict"]) for n, r in results.items()
-        if n.startswith("human") and r["verdict"] != "manusia"
+        (n, labels[n], r["verdict"]) for n, r in results.items()
+        if r["verdict"] != ("AI" if labels[n] == "AI" else "manusia")
     ]
     if fails:
         print(f"\nSELF-CHECK FAIL — {len(fails)} sampel tidak sesuai label:")
-        for n, label, verdict in fails:
+        for n, label, verdict in fails[:20]:
             print(f"  FAIL {n} (label {label}) -> verdict {verdict}")
+        if len(fails) > 20:
+            print(f"  ... dan {len(fails) - 20} lainnya")
         print("Ini sinyal jujur: bobot/threshold belum layak. Kalibrasi di Milestone 6 (data M4).")
         return 1
     print("SELF-CHECK OK")

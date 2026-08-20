@@ -5,6 +5,33 @@
 
 ---
 
+## 2026-08-20 — Milestone 3: subset M4 (id-newspaper, gpt-3.5-turbo) — REGRESI DOMAIN
+
+**Tujuan:** Ekstrak subset M4 Bahasa Indonesia (100 pasangan human/machine, seed 42, filter human_text ≥ 50 kata) → uji apakah 9 sinyal yang terkalibrasi di domain laporan akademik generalize ke domain berita. Sesuai protokol audit 20 Agu: evaluasi dulu, JANGAN tune diam-diam.
+**Setup:** `data/id-newspaper_chatGPT.jsonl` (3.000 baris) dari github.com/mbzuai-nlp/M4. Filter: human_text ≥ 50 kata (2911 lolos). Random sample 100 pasangan → `data/ai/m4_id_001..100.txt` (machine_text) + `data/human/m4_id_001..100.txt` (human_text).
+**Hasil:**
+- **0/100 machine text M4 diverdict AI** — SEMUA verdict manusia. Skor machine: min 0.007, median 0.067, p75 0.100, max 0.230 (threshold AI 0.44 — semua jauh di bawah)
+- Human M4: 99/100 manusia, 1 abu-abu (m4_id_032) — manusia berita aman
+- Self-check strict total (n=208): **103 FAIL** (100 machine + ai_03 + ai_04 + m4_id_032 human) → exit 1
+- avg AI=0.090 (n=104) vs avg human=0.050 (n=104) — jarak kelas nyaris hilang
+**Kenapa (analisis sinyal per-kelas):**
+- Em dash prosa: machine M4 = **0.00** per 100 sampel (gaya berita CNN pakai `--` ASCII, bukan em dash `—`; human M4 juga 0.01) → sinyal andalan kita **mati total di domain ini**
+- Closing analitik 0.01, enumerasi 0.25, kontras 0.01, basa-basi 0.00 — semua hampir nol di kedua kelas
+- Sinyal yang masih beda tipis: puffery 0.19 vs 0.06 (3×), transisi 0.20 vs 0.11, hedging 0.64 vs 0.52 — tapi bobotnya @0.05 dan rate-nya kecil → gak cukup mengangkat skor
+- Gaya berita ChatGPT: naratif datar, minim em dash, tanpa closing analitik, tanpa enumerasi sistematis — beda total dari "gaya AI laporan akademik" yang jadi basis kalibrasi v0
+**Temuan:**
+- ⚠️ **Sinyal v0 TIDAK generalize lintas domain** — yang kuat di akademik (em dash, closing, enumerasi) nyaris nol di berita. Ini justru justifikasi kuat buat: (a) set sinyal/prior per-domain, atau (b) layer ML v2 (fitur stilometri + classifier) yang belajar distribusi per-domain dari data besar
+- ⚠️ **Overlap kelas nyaris total**: 7356/10000 pasangan AI>human (kalau skor dipakai buat ranking, 73% pasangan kebeneran — masih di atas tebakan 50%, tapi jauh dari usable)
+- ✅ Bug self-check ketemu & diperbaiki: key dict pakai nama file doang → file m4_id_XXX (sama di ai/ dan human/) saling nimpa → hasil evaluasi pertama palsu (cuma 3 FAIL). Sekarang key pakai path relatif folder (`ai/m4_id_001.txt`)
+- ✅ Protokol audit jalan: kegagalan dilaporkan apa adanya, gak ditune diam-diam
+**Keputusan / next step:**
+1. Dataset M4 (100 pasangan) RESMI masuk data/ sebagai sampel eksternal — jangan dijadikan basis tuning v0 (v0 dikalibrasi di domain akademik, beda domain)
+2. Kalibrasi bobot/threshold tetap ditunda ke Milestone 6 — tapi sekarang jelas: kalibrasi harus PER-DOMAIN atau via ML layer
+3. Kandidat next eksperimen: identifikasi sinyal diskriminatif khusus domain berita (n-gram khas berita AI, kalimat template, dsb) — atau langsung evaluasi fitur stilometri mentah (tanpa dictionary) buat lihat apakah ada pembeda statistik yang lebih robust
+4. Tulis temuan ini di README — baseline jujur pasca-M3
+
+---
+
 ## 2026-08-20 — AUDIT METODOLOGI: self-check jujur, klaim diluruskan, threshold provisional
 
 **Tujuan:** Audit internal sebelum Milestone 3 — cek apakah klaim repo (README, self-check, Pola dan Sinyal) didukung data atau overclaim. Temuan utama: self-check lama cuma assert 2 dari 4 sampel AI (cherry-pick), nyembunyiin kegagalan nyata di ai_03 & ai_04.

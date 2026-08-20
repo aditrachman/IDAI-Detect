@@ -44,8 +44,8 @@ app.py                     # web app FastAPI
 engine/rule_engine.py      # rule engine v0 (CLI + library)
 templates/index.html       # UI highlight per kalimat
 data/
-  ai/                      # sampel teks AI (ground truth terkoreksi)
-  human/                   # sampel teks manusia
+  ai/                      # sampel teks AI (ground truth terkoreksi + M4 machine)
+  human/                   # sampel teks manusia (kurasi + M4 human)
 ```
 
 ## Sinyal yang dideteksi
@@ -63,17 +63,31 @@ data/
 | Burstiness rendah | 0.05 | Terkonfirmasi 2 detector, tapi noise di dokumen tabel-heavy |
 | Hedging, transisi, puffery, kontras, basa-basi | @0.05 | Lemah / belum teruji — butuh sampel lebih banyak |
 
-**Kondisi baseline saat ini (self-check strict, 20 Agu 2026):** 2 dari 4 sampel AI lolos,
-2 gagal (1 abu-abu, 1 salah klasifikasi manusia) — rata-rata skor AI 0.345 vs manusia 0.057.
-Ini baseline yang jujur: bobot/threshold belum layak, kalibrasi adalah pekerjaan terbuka (Milestone 6).
+**Kondisi baseline (self-check strict, 20 Agu 2026):**
+
+| Dataset | n | Benar | Catatan |
+|---|---|---|---|
+| Sampel lama (AI, domain akademik) | 4 | 2/4 | ai_01 & ai_02 lolos; ai_03 abu-abu, ai_04 salah (teks pendek) |
+| Sampel lama (manusia) | 4 | 4/4 | jurnal, telaah, blog, opini |
+| M4 machine (berita, gpt-3.5-turbo) | 100 | **0/100** | ⚠️ Regresi domain: semua diverdict manusia |
+| M4 human (berita) | 100 | 99/100 | 1 abu-abu |
+
+Total 103/208 salah klasifikasi (exit 1) — ini baseline yang jujur. Temuan penting dari M3:
+**sinyal v0 (em dash, closing analitik, enumerasi) terkalibrasi di gaya "laporan akademik" dan
+TIDAK generalize ke gaya berita** (em dash berita = 0, gaya naratif datar). Kalibrasi selanjutnya
+harus per-domain atau lewat layer ML (v2).
 
 ## Roadmap
 
 - [x] Milestone 1 — Riset & validasi pola (case study: laporan ML, manga recommender, CRISP-DM stroke)
 - [x] Milestone 2 — Rule engine v0 (CLI + web app sederhana)
-- [ ] Milestone 3 — Validasi skala besar (subset Bahasa Indonesia dari M4 dataset)
-- [ ] Milestone 4 — Kalibrasi bobot & threshold
+- [x] Milestone 3 — Subset M4 masuk (100 pasangan berita id, gpt-3.5-turbo) → **temuan: regresi domain, sinyal akademik gak generalize ke berita**
+- [ ] Milestone 4 — Kalibrasi bobot & threshold (per-domain atau lewat ML layer)
 - [ ] (v2) Layer ML — fitur stilometri + classifier (kandidat: Bi-LSTM pembanding)
+
+## Dataset
+
+- `data/ai/m4_id_*.txt` + `data/human/m4_id_*.txt` — subset M4, domain berita, generator gpt-3.5-turbo, parallel human/machine (Wang et al., EACL 2024). Reproducible: seed 42, filter human_text ≥ 50 kata. Sitasi lengkap di `Referensi.md`.
 
 ## Disclaimer
 
