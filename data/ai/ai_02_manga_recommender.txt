@@ -1,0 +1,323 @@
+=== METADATA ===
+sumber: Laporan_Final_Project_Manga_Recomender.docx (Final Project Data Mining, UNIMMA 2026)
+ground_truth: AI FULL (teks 100% AI - Tuan cuma input gambar + arahan; dikonfirmasi Tuan Adit, 18 Agu 2026)
+topik: sistem rekomendasi manga content-based filtering (CRISP-DM)
+format: docx -> python-docx (text extraction)
+=== ISI ===
+SISTEM REKOMENDASI MANGA MENGGUNAKAN
+CONTENT-BASED FILTERING
+BERBASIS CRISP-DM
+
+
+
+
+
+
+
+Disusun oleh:
+Muhammad Aditya Rachman
+NPM 2405040018
+
+
+
+Mata Kuliah Data Mining
+PROGRAM STUDI TEKNIK INFORMATIKA FAKULTAS TEKNIK
+UNIVERSITAS MUHAMMADIYAH MAGELANG
+TAHUN AKADEMIK 2026
+
+KATA PENGANTAR
+Puji syukur ke hadirat Allah SWT, karena atas rahmat dan hidayah-Nya, penulis dapat menyelesaikan laporan Final Project Mata Kuliah Data Mining ini. Laporan ini disusun sebagai bentuk pertanggungjawaban akademik atas penerapan metodologi CRISP-DM dalam membangun sistem rekomendasi manga berbasis content-based filtering.
+Penelitian ini menggunakan data yang diperoleh dari AniList API melalui proses scraping, kemudian dianalisis menggunakan pendekatan content-based filtering dengan tiga fitur utama yaitu genre, sinopsis, dan tema. Hasil dari penelitian ini diharapkan dapat memberikan kontribusi dalam pengembangan sistem rekomendasi di domain hiburan digital, khususnya manga.
+Penulis menyadari bahwa laporan ini masih memiliki keterbatasan. Oleh karena itu, kritik dan saran yang membangun sangat penulis harapkan. Semoga laporan ini dapat bermanfaat bagi pembaca dan menjadi referensi bagi penelitian selanjutnya.
+Ucapan terima kasih penulis sampaikan kepada dosen pengampu mata kuliah Data Mining serta semua pihak yang telah membantu dalam penyelesaian laporan ini.
+Magelang, Juli 2026
+
+
+
+
+
+
+
+Muhammad Aditya Rachman
+NPM 2405040018
+
+DAFTAR ISI
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>KATA PENGANTAR</w:r><w:r><w:t>3
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>DAFTAR ISI</w:r><w:r><w:t>4
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>BAB I PENDAHULUAN</w:r><w:r><w:t>6
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>1.1 Latar Belakang</w:r><w:r><w:t>6
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>1.2 Rumusan Masalah</w:r><w:r><w:t>6
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>1.3 Tujuan</w:r><w:r><w:t>7
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>1.4 Manfaat</w:r><w:r><w:t>7
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>BAB II TINJAUAN PUSTAKA</w:r><w:r><w:t>8
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>2.1 Data Mining</w:r><w:r><w:t>8
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>2.2 CRISP-DM</w:r><w:r><w:t>8
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>2.3 Content-Based Filtering</w:r><w:r><w:t>8
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>2.4 Cosine Similarity</w:r><w:r><w:t>9
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>2.5 Sentence Embedding</w:r><w:r><w:t>9
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>2.6 Penelitian Terkait</w:r><w:r><w:t>9
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>BAB III METODOLOGI PENELITIAN</w:r><w:r><w:t>11
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>3.1 Business Understanding</w:r><w:r><w:t>11
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>3.2 Data Understanding</w:r><w:r><w:t>11
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>3.3 Data Preparation</w:r><w:r><w:t>12
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>3.4 Modeling</w:r><w:r><w:t>13
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>3.4.1 Feature Engineering</w:r><w:r><w:t>13
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>3.4.2 Perhitungan Similarity</w:r><w:r><w:t>13
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>3.4.3 Model 2: Popularity-Based Recommender</w:r><w:r><w:t>14
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>3.4.4 Perbandingan Arsitektur Model</w:r><w:r><w:t>14
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>3.5 Evaluation</w:r><w:r><w:t>14
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>BAB IV HASIL DAN PEMBAHASAN</w:r><w:r><w:t>16
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>4.1 Hasil Preprocessing</w:r><w:r><w:t>16
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>4.2 Hasil Model 1: Content-Based Filtering</w:r><w:r><w:t>16
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>4.3 Hasil Model 2: Popularity-Based Recommender</w:r><w:r><w:t>17
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>4.4 Hasil Evaluasi</w:r><w:r><w:t>17
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>4.5 Perbandingan Model 1 vs Model 2</w:r><w:r><w:t>17
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>4.6 Analisis dan Interpretasi</w:r><w:r><w:t>18
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>4.7 Rekomendasi Implementasi</w:r><w:r><w:t>19
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>BAB V PENUTUP</w:r><w:r><w:t>20
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>5.1 Kesimpulan</w:r><w:r><w:t>20
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>5.2 Saran</w:r><w:r><w:t>20
+<w:tab w:val="right" w:leader="dot" w:pos="8839"/></w:tabs></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr><w:t>DAFTAR PUSTAKA</w:r><w:r><w:t>22
+
+
+BAB IPENDAHULUAN
+1.1 Latar Belakang
+Industri manga atau komik Jepang telah mengalami perkembangan yang sangat pesat dalam dua dekade terakhir. Platform digital seperti AniList, MyAnimeList, dan MangaDex memiliki jutaan pengguna aktif yang setiap hari mencari manga baru untuk dibaca. Dengan lebih dari 50.000 judul manga yang tersedia, pengguna sering mengalami kesulitan dalam menemukan manga yang sesuai dengan preferensi mereka. Fenomena ini dikenal sebagai information overload, yaitu kondisi dimana terlalu banyak pilihan justru membuat pengguna kesulitan dalam mengambil keputusan.
+Sistem rekomendasi hadir sebagai solusi untuk mengatasi permasalahan tersebut. Dengan memanfaatkan teknik data mining, sistem rekomendasi dapat menganalisis karakteristik dari setiap manga dan memberikan rekomendasi yang relevan kepada pengguna. Pendekatan content-based filtering dipilih karena mampu merekomendasikan item berdasarkan kemiripan konten, sehingga tidak memerlukan data historis dari pengguna lain.
+Penelitian ini menerapkan metodologi CRISP-DM (Cross-Industry Standard Process for Data Mining) yang terdiri dari enam fase: business understanding, data understanding, data preparation, modeling, evaluation, dan deployment. Data manga dikumpulkan dari AniList API melalui proses scraping, kemudian dianalisis berdasarkan tiga fitur konten utama yaitu genre, sinopsis, dan tema. Ketiga fitur ini diolah menggunakan multi-hot encoding dan sentence embedding, lalu dihitung tingkat kemiripannya menggunakan cosine similarity dengan skema pembobotan tertentu.
+1.2 Rumusan Masalah
+Berdasarkan latar belakang yang telah diuraikan, rumusan masalah dalam penelitian ini adalah:
+Bagaimana membangun sistem rekomendasi manga berbasis content-based filtering menggunakan pendekatan CRISP-DM?
+Fitur konten apa saja yang paling relevan dalam merepresentasikan kemiripan antar manga?
+Bagaimana performa sistem rekomendasi yang dibangun jika diukur menggunakan metrik Precision@K, Recall@K, F1-Score, dan MAP?
+1.3 Tujuan
+Tujuan dari penelitian ini adalah:
+Mengimplementasikan seluruh fase CRISP-DM dalam membangun sistem rekomendasi manga.
+Mengekstraksi fitur genre, sinopsis, dan tema dari manga sebagai representasi konten.
+Mengukur performa sistem rekomendasi menggunakan metrik Precision@10, Recall@10, F1@10, dan MAP.
+1.4 Manfaat
+Manfaat yang diharapkan dari penelitian ini meliputi:
+Bagi pengguna: Membantu menemukan manga baru yang sesuai dengan preferensi mereka secara efisien.
+Bagi platform: Menyediakan fitur rekomendasi yang dapat meningkatkan retensi dan engagement pengguna.
+Bagi peneliti: Menjadi referensi dalam implementasi content-based filtering pada domain manga menggunakan CRISP-DM.
+
+BAB IITINJAUAN PUSTAKA
+2.1 Data Mining
+Data mining merupakan proses yang menggunakan teknik statistik, matematika, dan kecerdasan buatan untuk mengekstraksi dan mengidentifikasi informasi yang bermanfaat serta pengetahuan yang terkait dari berbagai database besar (Han et al., 2022). Dalam perkembangannya, data mining telah banyak digunakan dalam berbagai bidang seperti bisnis, kesehatan, pendidikan, dan sistem rekomendasi. Secara umum, tugas-tugas dalam data mining meliputi klasifikasi, regresi, clustering, asosiasi, dan deteksi anomali.
+2.2 CRISP-DM
+CRISP-DM (Cross-Industry Standard Process for Data Mining) merupakan metodologi standar yang banyak digunakan dalam proyek data mining. Metodologi ini pertama kali dikembangkan pada tahun 1996 oleh konsorsium perusahaan yang terdiri dari SPSS, NCR, DaimlerChrysler, dan OHRA (Wirth & Hipp, 2000). CRISP-DM terdiri dari enam fase utama:
+Business Understanding: Memahami tujuan dan kebutuhan proyek dari perspektif bisnis.
+Data Understanding: Mengumpulkan data awal dan melakukan eksplorasi untuk memahami karakteristik data.
+Data Preparation: Membersihkan dan mentransformasi data menjadi format yang siap untuk pemodelan.
+Modeling: Menerapkan teknik data mining yang sesuai untuk membangun model.
+Evaluation: Mengevaluasi performa model dan memastikan model mencapai tujuan bisnis.
+Deployment: Mengimplementasikan model ke dalam lingkungan produksi.
+2.3 Content-Based Filtering
+Content-Based Filtering (CBF) adalah pendekatan dalam sistem rekomendasi yang bekerja dengan merekomendasikan item yang memiliki kemiripan konten dengan item yang disukai pengguna sebelumnya (Lops et al., 2011). Prinsip kerja CBF adalah menganalisis deskripsi konten dari item-item yang ada, kemudian membangun profil pengguna berdasarkan item yang pernah disukai. Kelebihan utama CBF adalah tidak memerlukan data dari pengguna lain (cold-start problem untuk user baru dapat diatasi) dan mampu memberikan rekomendasi yang transparan karena didasarkan pada karakteristik konten yang jelas.
+2.4 Cosine Similarity
+Cosine similarity adalah metrik yang digunakan untuk mengukur tingkat kemiripan antara dua vektor dalam ruang dimensi. Nilai cosine similarity berkisar antara 0 hingga 1, dimana nilai yang lebih tinggi menunjukkan kemiripan yang lebih besar. Secara matematis, cosine similarity didefinisikan sebagai:
+cos(θ) = (A · B) / (||A||× ||B||)
+Metrik ini banyak digunakan dalam information retrieval dan sistem rekomendasi karena tidak terpengaruh oleh panjang vektor, sehingga cocok untuk membandingkan dokumen atau item dengan panjang yang berbeda.
+2.5 Sentence Embedding
+Sentence embedding adalah representasi numerik dari kalimat dalam bentuk vektor berdimensi tetap yang dapat menangkap makna semantik dari kalimat tersebut. Penelitian ini menggunakan model all-MiniLM-L6-v2 dari library Sentence Transformers (Reimers & Gurevych, 2019). Model ini menghasilkan vektor 384 dimensi untuk setiap sinopsis manga. Keunggulan model ini adalah efisien secara komputasi namun tetap mampu memberikan representasi semantik yang baik untuk teks pendek dan menengah.
+2.6 Penelitian Terkait
+Beberapa penelitian yang relevan dengan penelitian ini antara lain:
+Lops, P., de Gemmis, M., & Semeraro, G. (2011) membahas secara komprehensif tentang arsitektur, teknik representasi konten, dan tantangan dalam content-based recommender systems.
+Reimers, N., & Gurevych, I. (2019) memperkenalkan Sentence-BERT, sebuah modifikasi dari BERT yang mampu menghasilkan sentence embedding secara efisien menggunakan Siamese network.
+Ricci, F., Rokach, L., & Shapira, B. (2015) menyusun Recommender Systems Handbook yang mencakup berbagai pendekatan sistem rekomendasi termasuk content-based, collaborative, dan hybrid.
+Wirth, R., & Hipp, J. (2000) memperkenalkan CRISP-DM sebagai standar proses untuk proyek data mining yang hingga kini masih banyak digunakan di industri.
+Han, J., Kamber, M., & Pei, J. (2022) membahas konsep fundamental data mining termasuk preprocessing, klasifikasi, clustering, dan teknik evaluasi model.
+
+BAB IIIMETODOLOGI PENELITIAN
+Penelitian ini mengadopsi metodologi CRISP-DM yang terdiri dari enam fase. Setiap fase dijalankan secara berurutan dengan umpan balik yang memungkinkan perbaikan pada fase sebelumnya jika diperlukan.
+3.1 Business Understanding
+Tujuan bisnis dari proyek ini adalah membangun sistem rekomendasi manga berbasis content-based filtering yang dapat membantu pengguna menemukan manga baru yang relevan dengan preferensi mereka. Sistem ini diharapkan dapat mengurangi information overload yang sering dialami pengguna ketika mencari manga di platform digital.
+Stakeholder yang terlibat dalam proyek ini meliputi:
+<w:tab w:val="clear" w:pos="425"/></w:tabs><w:spacing w:after="0" w:line="360" w:lineRule="auto"/><w:ind w:left="425" w:leftChars="0" w:hanging="425" w:firstLineChars="0"/><w:jc w:val="both"/><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/></w:rPr><w:t>Pengguna akhir: Pembaca manga yang membutuhkan rekomendasi personal.
+<w:tab w:val="clear" w:pos="425"/></w:tabs><w:spacing w:after="0" w:line="360" w:lineRule="auto"/><w:ind w:left="425" w:leftChars="0" w:hanging="425" w:firstLineChars="0"/><w:jc w:val="both"/><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/></w:rPr><w:t>Platform digital: AniList, MyAnimeList, MangaDex sebagai penyedia layanan.
+<w:tab w:val="clear" w:pos="425"/></w:tabs><w:spacing w:after="0" w:line="360" w:lineRule="auto"/><w:ind w:left="425" w:leftChars="0" w:hanging="425" w:firstLineChars="0"/><w:jc w:val="both"/><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/></w:rPr><w:t>Publisher manga: Penerbit yang ingin mempromosikan katalog mereka.
+Target analisis adalah mengembangkan model content-based filtering yang mampu memberikan rekomendasi dengan precision tinggi pada peringkat teratas.
+3.2 Data Understanding
+Dataset diperoleh dari AniList API melalui proses scraping. AniList dipilih karena menyediakan data manga yang lengkap meliputi genre, sinopsis, tema, skor, dan metrik popularitas lainnya. Data dikumpulkan dengan melakukan query GraphQL ke AniList API untuk mendapatkan manga dengan popularitas tertinggi.
+Dataset awal terdiri dari 5.000 manga dengan 21 atribut. Atribut-atribut tersebut meliputi:
+<w:tab w:val="clear" w:pos="425"/></w:tabs><w:spacing w:after="0" w:line="360" w:lineRule="auto"/><w:ind w:left="425" w:leftChars="0" w:hanging="425" w:firstLineChars="0"/><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/></w:rPr><w:t>Informasi identitas: id, title_romaji, title_english, title_native, site_url
+<w:tab w:val="clear" w:pos="425"/></w:tabs><w:spacing w:after="0" w:line="360" w:lineRule="auto"/><w:ind w:left="425" w:leftChars="0" w:hanging="425" w:firstLineChars="0"/><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/></w:rPr><w:t>Informasi konten: genres, themes, synopsis, format, status, country, start_year
+<w:tab w:val="clear" w:pos="425"/></w:tabs><w:spacing w:after="0" w:line="360" w:lineRule="auto"/><w:ind w:left="425" w:leftChars="0" w:hanging="425" w:firstLineChars="0"/><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/></w:rPr><w:t>Informasi metadata: average_score, mean_score, popularity, favourites, trending
+<w:tab w:val="clear" w:pos="425"/></w:tabs><w:spacing w:after="0" w:line="360" w:lineRule="auto"/><w:ind w:left="425" w:leftChars="0" w:hanging="425" w:firstLineChars="0"/><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/></w:rPr><w:t>Informasi fisik: chapters, volumes
+<w:tab w:val="clear" w:pos="425"/></w:tabs><w:spacing w:after="0" w:line="360" w:lineRule="auto"/><w:ind w:left="425" w:leftChars="0" w:hanging="425" w:firstLineChars="0"/><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="default" w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="24"/></w:rPr><w:t>Informasi kredit: authors, artists
+Visualisasi data meliputi distribusi genre, distribusi average score, analisis missing value, heatmap korelasi fitur numerik, boxplot chapters, dan distribusi format manga. Hasil visualisasi menunjukkan bahwa Action, Adventure, dan Comedy merupakan genre paling dominan. Distribusi average_score mendekati normal dengan mean 73,85 dan median 74,0.
+Tabel tipe data setiap atribut: id (int64), title_romaji (object), title_english (object), title_native (object), format (object), status (object), chapters (float64), volumes (float64), average_score (float64), mean_score (float64), popularity (int64), favourites (int64), trending (int64), genres (object), themes (object), synopsis (object), authors (object), artists (object), country (object), start_year (float64), site_url (object).
+
+Gambar 4. Heatmap Korelasi Fitur Numerik
+
+Gambar 1. Distribusi Genre pada Dataset
+
+Gambar 2. Analisis Distribusi Average Score
+
+Gambar 3. Analisis Missing Value
+Hasil eksplorasi data menunjukkan bahwa rata-rata skor manga adalah 73,85 dengan rentang 68 hingga 92. Terdapat 18 genre unik dengan Action, Adventure, dan Comedy sebagai genre yang paling dominan. Rata-rata setiap manga memiliki 3 genre. Missing value tertinggi terdapat pada kolom volumes (39,4%) dan chapters (26,6%).
+3.3 Data Preparation
+Tahapan data preparation yang dilakukan meliputi:
+Pertama, filtering dilakukan untuk menghapus manga yang tidak memiliki genre atau memiliki sinopsis yang terlalu pendek (kurang dari 10 karakter). Kedua, deduplikasi dilakukan berdasarkan kolom title_romaji dengan mempertahankan manga yang memiliki skor tertinggi. Ketiga, missing values pada kolom themes, authors, dan artists diisi dengan string kosong. Terakhir, dilakukan ekstraksi fitur dengan memecah kolom genres dan themes menjadi list untuk proses encoding selanjutnya.
+Analisis outlier pada chapters dan volumes menggunakan metode IQR menunjukkan beberapa manga memiliki chapters sangat tinggi (>1.000) seperti One Piece. Outlier tidak dihapus karena merupakan karakteristik alami domain manga. Normalisasi dilakukan secara implisit: cosine similarity menormalisasi panjang vektor, multi-hot encoding menghasilkan vektor biner ternormalisasi, dan sentence embedding dari all-MiniLM-L6-v2 menghasilkan vektor L2-normalized.
+Setelah preprocessing, jumlah manga berkurang dari 5.000 menjadi 4.816 manga yang siap untuk diproses lebih lanjut.
+3.4 Modeling
+Penelitian ini menggunakan dua model data mining untuk sistem rekomendasi. Model 1 adalah Content-Based Filtering (CBF) dengan tiga fitur konten (genre, sinopsis, tema), sedangkan Model 2 adalah Popularity-Based Recommender sebagai baseline non-personalized. Diagram alur modeling: (1) Dataset bersih (4.816 manga) → (2) Feature Engineering (genre multi-hot, synopsis embedding, themes multi-hot) → (3) Model 1: Weighted Cosine Similarity + Franchise Filter → (4) Model 2: Popularity Score Calculation → (5) Evaluasi dan Perbandingan Kedua Model. Proses modeling Model 1 terdiri dari feature engineering dan perhitungan similarity.
+3.4.1 Feature Engineering
+
+Gambar 5. Diagram Alur Modeling Pipeline
+Terdapat tiga fitur yang diekstraksi dari setiap manga:
+a) Genre Encoding: Genre manga diubah menjadi vektor biner multidimensi menggunakan MultiLabelBinarizer. Terdapat 18 genre unik yang dihasilkan dari proses ini. Bobot genre ditetapkan sebesar 0,50 karena genre merupakan fitur yang paling diskriminatif dalam membedakan antar manga.
+b) Synopsis Embedding: Sinopsis manga diubah menjadi vektor 384 dimensi menggunakan model all-MiniLM-L6-v2 dari library Sentence Transformers. Proses embedding memakan waktu sekitar 6-7 menit untuk 4.816 sinopsis. Bobot synopsis ditetapkan sebesar 0,35 untuk memberikan kontribusi semantik pada hasil rekomendasi.
+c) Themes Encoding: Tema manga diubah menjadi vektor biner multidimensi. Terdapat 374 tema unik yang berhasil diidentifikasi. Bobot themes ditetapkan sebesar 0,15 sebagai fitur pendukung yang memberikan sentuhan spesifik pada rekomendasi.
+3.4.2 Perhitungan Similarity
+Perhitungan similarity akhir dilakukan dengan menjumlahkan ketiga komponen cosine similarity menggunakan pembobotan sebagai berikut:
+Similarity = 0,50 × Genre + 0,35 × Synopsis + 0,15 × Themes
+Selain itu, diterapkan franchise filter 3-level untuk mencegah judul-judul dari franchise atau seri yang sama mendominasi hasil rekomendasi. Tiga level filter tersebut adalah: (1) fuzzy matching menggunakan SequenceMatcher dari difflib, (2) substring matching untuk mendeteksi judul yang mengandung kata kunci yang sama, dan (3) token overlap detection untuk mendeteksi kemiripan berdasarkan kata-kata penyusun judul.
+3.4.3 Model 2: Popularity-Based Recommender
+Model 2 merupakan pendekatan non-personalized yang merekomendasikan manga berdasarkan skor popularitas composite: Score = 0,5 × normalized(average_score) + 0,5 × normalized(log(popularity)). Model ini berfungsi sebagai baseline untuk mengukur peningkatan yang diberikan Model 1.
+Parameter Model 2: (1) Bobot average_score = 0,50, (2) Bobot popularity = 0,50, (3) Log transformation pada popularity, (4) Min-max normalization. Model ini deterministic tanpa hyperparameter tuning.
+3.4.4 Perbandingan Arsitektur Model
+Perbedaan mendasar: Model 1 bersifat personalized (rekomendasi berbeda per query berdasarkan kemiripan konten), sedangkan Model 2 non-personalized (semua query mendapat rekomendasi sama — manga terpopuler). Model 1 menggunakan 776 dimensi fitur (genre 18-d, synopsis 384-d, themes 374-d), Model 2 hanya 2 metrik (average_score dan popularity).
+3.5 Evaluation
+Evaluasi dilakukan menggunakan metrik Precision@K, Recall@K, F1@K, dan Mean Average Precision (MAP) dengan nilai K=10. Untuk memberikan gambaran performa yang lebih komprehensif, ditetapkan tiga level relevansi:
+Level 1 (Loose): Satu genre atau lebih sama — mengukur coverage dasar.
+Level 2 (Medium): Tiga genre atau lebih sama — mengukur relevansi yang lebih realistis.
+Level 3 (Strict): Jaccard similarity > 0,3 — mengukur kemiripan yang ketat.
+Delapan judul manga digunakan sebagai query uji, yaitu Berserk, One Piece, Death Note, Jujutsu Kaisen, Naruto, Kimetsu no Yaiba, Monster, dan Slam Dunk. Pemilihan ini didasarkan pada variasi genre yang dimiliki oleh masing-masing judul.
+Evaluasi yang sama juga diterapkan pada Model 2 (Popularity-Based) dengan query dan metrik identik untuk perbandingan yang adil.
+
+BAB IVHASIL DAN PEMBAHASAN
+4.1 Hasil Preprocessing
+Setelah melalui tahap data preparation, dataset mengalami perubahan jumlah sebagai berikut:
+Filter manga dengan genre tidak kosong: 5.000 → 4.998 data
+Filter manga dengan sinopsis lebih dari 10 karakter: 4.998 → 4.818 data
+Penghapusan duplikat berdasarkan title_romaji: 4.818 → 4.816 data
+Dataset final yang digunakan dalam pemodelan berjumlah 4.816 manga dengan 22 kolom. Tidak ada missing value pada kolom genres dan synopsis yang menjadi fitur utama dalam sistem rekomendasi ini.
+4.2 Hasil Model 1: Content-Based Filtering
+Proses feature engineering berhasil mengekstraksi tiga representasi fitur dari 4.816 manga. Genre multi-hot encoding menghasilkan vektor berdimensi 18, synopsis embedding menghasilkan vektor berdimensi 384, dan themes multi-hot encoding menghasilkan vektor berdimensi 374. Seluruh fitur ini disimpan dalam satu file artifacts untuk mempercepat proses rekomendasi.
+Berikut adalah contoh hasil rekomendasi untuk query manga &quot;Berserk&quot; yang memiliki genre Action, Adventure, Drama, Fantasy, Horror, Psychological, Romance, dan Sci-Fi:
+No
+Judul Rekomendasi
+Genre
+Similarity
+1
+Vinland Saga
+Action, Adventure, Drama
+0.899
+2
+Vagabond
+Action, Adventure, Drama
+0.871
+3
+Kingdom
+Action, Adventure, Drama
+0.857
+4
+Monster
+Drama, Psychological, Thriller
+0.842
+5
+Shigurui
+Action, Drama, Horror, Psychological
+0.840
+Hasil rekomendasi menunjukkan bahwa sistem mampu merekomendasikan manga dengan genre yang relevan. Vinland Saga dan Vagabond muncul sebagai rekomendasi teratas karena memiliki kesamaan genre Action, Adventure, dan Drama dengan Berserk.
+4.3 Hasil Model 2: Popularity-Based Recommender
+Model 2 menghasilkan rekomendasi identik untuk semua query. Top manga: Berserk (0,978), Fullmetal Alchemist (0,964), One Piece (0,955), Attack on Titan (0,943), Vagabond (0,931).
+Hasil evaluasi Model 2 menunjukkan performa lebih rendah: pada Level 2, Precision@10 = 0,2625 dan MAP = 0,4801. Hal ini disebabkan sifat non-personalized — manga populer seperti Berserk memiliki genre terbatas, tidak relevan untuk query genre berbeda.
+4.4 Hasil Evaluasi
+Evaluasi dilakukan terhadap delapan query manga dengan tiga level relevansi. Hasil rata-rata evaluasi disajikan pada tabel berikut:
+Level Relevansi
+Precision@10
+Recall@10
+F1@10
+MAP
+Lv1 (≥1 genre)
+1.0000
+0.0035
+0.0069
+1.0000
+Lv2 (≥3 genre)
+0.9750
+0.0833
+0.1395
+0.9949
+Lv3 (Jaccard>0.3)
+1.0000
+0.0127
+0.0251
+1.0000
+Hasil evaluasi menunjukkan bahwa sistem mencapai Precision@10 yang sangat tinggi di semua level relevansi. Pada Level 2 yang merupakan level relevansi paling realistis (minimal 3 genre sama), sistem mencapai Precision@10 sebesar 0,975 dan MAP sebesar 0,995. Hal ini menunjukkan bahwa rekomendasi yang relevan cenderung muncul di peringkat teratas. Recall yang relatif rendah disebabkan oleh terbatasnya nilai K=10 dibandingkan dengan total manga relevan yang jumlahnya bisa mencapai ratusan di dalam dataset.
+4.5 Perbandingan Model 1 vs Model 2
+
+Gambar 6. Perbandingan Model 1 (CBF) vs Model 2 (Popularity)
+Perbandingan dilakukan antara Model 1 (CBF) dan Model 2 (Popularity-Based) menggunakan metrik yang sama pada Level 2 (≥3 genre sama):
+Model
+Precision@10
+Recall@10
+F1@10
+MAP (Lv2)
+Model 1: Content-Based Filtering
+0.9750
+0.0833
+0.1395
+0.9949
+Model 2: Popularity-Based
+0.2625
+0.0179
+0.0299
+0.4801
+Peningkatan (%)
++271.4%
++365.4%
++366.6%
++107.2%
+Dari hasil perbandingan, bobot final (genre=0,50; synopsis=0,35; themes=0,15) memberikan performa terbaik.
+4.6 Analisis dan Interpretasi
+Berdasarkan hasil yang diperoleh, terdapat beberapa temuan penting dalam penelitian ini:
+Genre merupakan fitur yang paling dominan dalam menentukan kemiripan antar manga. Hal ini terlihat dari bobot genre yang paling tinggi (0,50) dan penurunan MAP yang signifikan ketika genre tidak digunakan (skenario Genre Only masih memberikan MAP 0,862 yang cukup baik, namun menurun jika dibandingkan dengan bobot final).
+Synopsis embedding memberikan kontribusi semantik yang berarti. Meskipun bobotnya hanya 0,35, fitur ini membantu membedakan manga yang memiliki genre serupa namun dengan cerita yang berbeda.
+Franchise filter 3-level terbukti efektif. Filter ini berhasil mencegah judul-judul dari franchise yang sama (seperti berbagai season, part, atau spin-off) mendominasi hasil rekomendasi, sehingga rekomendasi yang diberikan lebih bervariasi.
+Nilai Recall yang rendah merupakan konsekuensi matematis dari nilai K yang terbatas. Dengan K=10, sistem hanya mengevaluasi 10 rekomendasi teratas dari total manga relevan yang bisa mencapai ratusan. Namun, Precision dan MAP yang tinggi menunjukkan bahwa sistem mampu menempatkan rekomendasi relevan di peringkat teratas.
+Perbandingan Model 1 vs Model 2: Model 1 unggul signifikan dengan MAP 0,995 vs 0,480 (peningkatan 107,2%). Model 1 unggul karena personalisasi berbasis konten, sementara Model 2 bersifat one-size-fits-all. Model 2 hanya unggul dalam kesederhanaan komputasi.
+Model 1 (CBF) secara konsisten mengungguli Model 2 di semua level relevansi, membuktikan bahwa personalisasi berbasis konten memberikan nilai tambah substansial dibanding popularitas semata.
+4.7 Rekomendasi Implementasi
+Berdasarkan perbandingan kedua model, Model 1 (Content-Based Filtering dengan bobot genre=0,50, synopsis=0,35, themes=0,15) direkomendasikan untuk implementasi. Model 2 dapat digunakan sebagai fallback untuk cold-start manga baru.
+Manfaat yang dapat diperoleh dari implementasi sistem ini antara lain:
+Meningkatkan pengalaman pengguna dalam menemukan manga baru yang relevan.
+Mengurangi waktu pencarian yang dibutuhkan pengguna untuk menemukan manga yang sesuai.
+Meningkatkan retensi pengguna melalui personalisasi konten.
+Namun, terdapat beberapa keterbatasan yang perlu diperhatikan:
+Sistem tidak dapat merekomendasikan manga baru yang belum memiliki data genre atau sinopsis.
+Sistem cenderung merekomendasikan manga yang mirip dengan preferensi yang sudah ada (filter bubble).
+Kualitas rekomendasi sangat bergantung pada kelengkapan dan akurasi data dari sumber.
+Dari segi etika dan privasi, sistem ini tidak mengumpulkan data pengguna karena bersifat non-personalized per sesi. Data yang digunakan bersifat publik dari AniList API. Untuk pengembangan selanjutnya, disarankan untuk mengintegrasikan sistem dengan collaborative filtering, melakukan A/B testing untuk validasi dampak, dan mengembangkan REST API untuk kemudahan integrasi dengan platform.
+
+BAB VPENUTUP
+5.1 Kesimpulan
+Berdasarkan penelitian yang telah dilakukan, dapat ditarik beberapa kesimpulan:
+Metodologi CRISP-DM berhasil diimplementasikan dalam membangun sistem rekomendasi manga berbasis content-based filtering. Setiap fase dijalankan secara sistematis mulai dari business understanding hingga deployment recommendation.
+Fitur genre, sinopsis, dan tema efektif digunakan sebagai representasi konten manga. Genre merupakan fitur paling diskriminatif dengan bobot optimal 0,50, diikuti sinopsis (0,35) dan tema (0,15). Kombinasi ketiga fitur ini menghasilkan performa yang lebih baik dibandingkan penggunaan genre saja.
+Model 1 (CBF) unggul signifikan dibanding Model 2 (Popularity) dengan MAP 0,995 vs 0,480 pada Level 2 — peningkatan 107,2%. Personalisasi konten terbukti memberikan rekomendasi yang jauh lebih relevan.
+Franchise filter 3-level yang diterapkan efektif mencegah dominasi judul dari franchise yang sama, sehingga rekomendasi yang dihasilkan lebih bervariasi.
+Perbandingan dua model (Content-Based Filtering vs Popularity-Based) menunjukkan personalisasi berbasis konten memberikan peningkatan kualitas rekomendasi substansial dibanding pendekatan non-personalized.
+5.2 Saran
+Untuk pengembangan penelitian selanjutnya, beberapa saran yang dapat diberikan:
+Menambahkan data pengguna seperti riwayat pembacaan dan rating untuk meningkatkan personalisasi rekomendasi.
+Mengembangkan sistem hybrid yang menggabungkan content-based filtering dengan collaborative filtering untuk meningkatkan serendipity rekomendasi.
+Melakukan evaluasi dengan melibatkan pengguna nyata (user study) untuk mengukur tingkat kepuasan pengguna terhadap rekomendasi yang diberikan.
+Mengembangkan antarmuka pengguna berbasis web agar sistem lebih mudah diakses dan digunakan oleh masyarakat umum.
+
+DAFTAR PUSTAKA
+G. Adomavicius and A. Tuzhilin, &quot;Toward the next generation of recommender systems: A survey of the state-of-the-art and possible extensions,&quot; IEEE Transactions on Knowledge and Data Engineering, vol. 17, no. 6, pp. 734–749, 2005.
+J. Han, M. Kamber, and J. Pei, Data Mining: Concepts and Techniques, 4th ed. Waltham, MA: Morgan Kaufmann, 2022.
+Y. Koren, R. Bell, and C. Volinsky, &quot;Matrix factorization techniques for recommender systems,&quot; Computer, vol. 42, no. 8, pp. 30–37, 2009.
+P. Lops, M. de Gemmis, and G. Semeraro, &quot;Content-based recommender systems: State of the art and trends,&quot; in Recommender Systems Handbook, F. Ricci, L. Rokach, B. Shapira, and P. B. Kantor, Eds. Boston, MA: Springer, 2011, pp. 73–105.
+M. J. Pazzani and D. Billsus, &quot;Content-based recommendation systems,&quot; in The Adaptive Web, P. Brusilovsky, A. Kobsa, and W. Nejdl, Eds. Berlin, Heidelberg: Springer, 2007, pp. 325–341.
+N. Reimers and I. Gurevych, &quot;Sentence-BERT: Sentence embeddings using Siamese BERT-networks,&quot; in Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing, Hong Kong, 2019, pp. 3982–3992.
+F. Ricci, L. Rokach, and B. Shapira, Eds., Recommender Systems Handbook, 2nd ed. New York, NY: Springer, 2015.
+J. B. Schafer, D. Frankowski, J. Herlocker, and S. Sen, &quot;Collaborative filtering recommender systems,&quot; in The Adaptive Web, P. Brusilovsky, A. Kobsa, and W. Nejdl, Eds. Berlin, Heidelberg: Springer, 2007, pp. 291–324.
+X. Su and T. M. Khoshgoftaar, &quot;A survey of collaborative filtering techniques,&quot; Advances in Artificial Intelligence, vol. 2009, Art. no. 421425, 2009.
+R. Wirth and J. Hipp, &quot;CRISP-DM: Towards a standard process model for data mining,&quot; in Proceedings of the 4th International Conference on the Practical Applications of Knowledge Discovery and Data Mining, London, UK, 2000, pp. 29–39.
+J. Bobadilla, F. Ortega, A. Hernando, and A. Gutiérrez, &quot;Recommender systems survey,&quot; Knowledge-Based Systems, vol. 46, pp. 109–132, 2013.
+M. Sano, K. Kudo, and S. Sato, &quot;Manga recommendation using content-based filtering with genre and tag features,&quot; in Proc. IEEE ICCE, Las Vegas, NV, 2023, pp. 1–5.

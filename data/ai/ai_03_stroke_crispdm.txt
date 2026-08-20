@@ -1,0 +1,271 @@
+
+Analisis Prediksi Risiko Stroke Menggunakan 
+Metodologi CRISP-DM
+
+DATA MINING
+Dosen Pengampu: Endah Ratna Arumi, S.Kom., M.Cs
+
+Disusun oleh:
+
+Dhika Wahyu Permadi
+24.0504.0013
+Hilmy Abdurrahman Yusuf
+24.0504.0026
+Ahmad Dwitama Saputra
+24.0504.0030
+
+Program Studi Teknik Informatika Kelas 4A Reguler Universitas Muhammadiyah Magelang
+2026
+
+BUSINESS UNDERSTANDING  PEMAHAMAN BISNIS
+Berfokus pada pemahaman tujuan dan kebutuhan proyek dari perspektif bisnis, kemudian mengubah pemahaman tersebut menjadi definisi masalah dan rencana awal yang dirancang untuk mencapai tujuan bisnis.
+Pertanyaan Kunci (Key Questions):
+Apa pernyataan masalah (problem statement) yang ingin diselesaikan?
+Apa tujuan atau manfaat bisnis (business objective/benefit) yang ingin dicapai?
+Apa hasil yang diharapkan (expected outcome) dari proyek ini?
+Metodologi atau pendekatan analitik (analytics approach) apa yang akan digunakan?
+Apa kriteria keberhasilan (success criteria) yang akan digunakan untuk mengukur keberhasilan proyek?
+
+Use Case : Stroke Prediction
+Objective / Problem Statement
+Untuk memprediksi risiko stroke pada pasien berdasarkan data demografis dan kondisi kesehatan, guna mendukung deteksi dini dan tindakan pencegahan yang lebih efektif.
+Untuk mengidentifikasi faktor-faktor risiko utama yang paling berpengaruh terhadap kejadian stroke sehingga dapat menjadi dasar rekomendasi medis berbasis data.
+Business Benefit
+Membantu tenaga medis dan institusi kesehatan dalam mengidentifikasi pasien berisiko tinggi stroke secara lebih cepat dan akurat.
+Meningkatkan efisiensi alokasi sumber daya medis dengan memprioritaskan penanganan pada pasien berisiko tinggi.
+Mendukung program pencegahan stroke berbasis data untuk mengurangi angka kejadian dan biaya penanganan stroke.
+Expected Outcome
+Model klasifikasi machine learning yang mampu memprediksi risiko stroke dengan AUC-ROC minimal 0.80.
+Visualisasi distribusi faktor risiko stroke pada populasi dataset (usia, kadar glukosa, BMI, hipertensi, dll.).
+Laporan analisis lengkap yang dapat digunakan sebagai dasar rekomendasi pencegahan stroke.
+Methodology / Analytic Technique
+Descriptive Analysis: eksplorasi statistik untuk memahami distribusi dan karakteristik data.
+Predictive Analysis (Supervised Learning - Classification): membangun model prediksi stroke menggunakan algoritma seperti Logistic Regression, Decision Tree, Random Forest, dan XGBoost.
+Feature Importance Analysis: mengidentifikasi variabel paling berpengaruh terhadap risiko stroke.
+Success Criteria
+AUC-ROC &gt;= 0.80 pada data uji.
+Recall (sensitivitas) &gt;= 0.75 untuk kelas stroke positif agar kasus stroke tidak terlewat.
+F1-Score &gt;= 0.65 sebagai keseimbangan precision dan recall.
+
+DATA UNDERSTANDING PEMAHAMAN DATA
+Tahap pemahaman data dimulai dengan pengumpulan data awal dan dilanjutkan dengan berbagai aktivitas untuk memahami data secara lebih mendalam, mengidentifikasi permasalahan kualitas data, menemukan wawasan awal dari data, serta mendeteksi subset data yang menarik untuk membentuk hipotesis mengenai informasi yang tersembunyi.
+Pertanyaan Kunci (Key Questions):
+Data apa yang dibutuhkan untuk menyelesaikan permasalahan yang telah ditentukan? 
+Data apa saja yang tersedia dan dapat digunakan dalam proses analisis? 
+Apa saja karakteristik penting dari data berdasarkan hasil Analisis Data Eksploratif (Exploratory Data Analysis/EDA)?
+Source Data
+File CSV (02_stroke.csv):
+Data rekam medis pasien (5.110 baris, 12 variabel)
+Variabel demografis: id, gender, age, ever_married, work_type, Residence_type
+Variabel klinis: hypertension, heart_disease, avg_glucose_level, bmi
+Variabel gaya hidup: smoking_status
+Variabel target: stroke (0 = tidak stroke, 1 = stroke)
+Data yang Tersedia — Ringkasan Dataset
+
+Variabel
+Tipe Data
+Deskripsi
+Contoh / Range
+id
+Integer
+ID unik pasien
+9046, 51676
+gender
+Kategorikal
+Jenis kelamin
+Male, Female, Other
+age
+Numerik
+Usia pasien (tahun)
+0.08 – 82.0
+hypertension
+Biner
+Riwayat hipertensi
+0 = Tidak, 1 = Ya
+heart_disease
+Biner
+Riwayat penyakit jantung
+0 = Tidak, 1 = Ya
+ever_married
+Kategorikal
+Status pernah menikah
+Yes, No
+work_type
+Kategorikal
+Jenis pekerjaan
+Private, Govt_job, Self-employed, ...
+Residence_type
+Kategorikal
+Tipe tempat tinggal
+Urban, Rural
+avg_glucose_level
+Numerik
+Rata-rata kadar glukosa (mg/dL)
+55.12 – 271.74
+bmi
+Numerik
+Body Mass Index
+10.3 – 97.6 (201 N/A)
+smoking_status
+Kategorikal
+Status merokok
+never smoked, smokes, ...
+stroke
+Biner (Target)
+Label stroke
+0 = Tidak, 1 = Ya
+
+Karakteristik Penting Data (Exploratory Data Analysis)
+
+Indikator
+Nilai
+Total Data
+5.110 baris
+Kasus Stroke (stroke = 1)
+249 (4,87%)
+Kasus Non-Stroke (stroke = 0)
+4.861 (95,13%)
+Rata-rata Usia
+43,23 tahun (range: 0,08 – 82,0)
+Rata-rata Kadar Glukosa
+106,15 mg/dL (range: 55,12 – 271,74)
+Rata-rata BMI
+28,89 (range: 10,3 – 97,6)
+Pasien Hipertensi
+498 (9,75%)
+Pasien Penyakit Jantung
+276 (5,40%)
+Missing Values (BMI)
+201 baris (3,93%)
+Class Imbalance
+Rasio 1:19,5 (stroke vs non-stroke)
+
+Temuan Awal &amp; Hipotesis
+Class imbalance signifikan: hanya 4,87% data merupakan kasus stroke — perlu penanganan khusus saat pemodelan.
+Missing values pada BMI (3,93%): perlu strategi imputasi yang tepat.
+Nilai 'Unknown' pada smoking_status (30,21%): berpotensi mengurangi akurasi analisis faktor merokok.
+Hipotesis: usia, kadar glukosa, BMI, hipertensi, dan penyakit jantung diperkirakan menjadi prediktor stroke paling signifikan.
+
+DATA PREPARATION PERSIAPAN DATA
+Tahap persiapan data meliputi seluruh proses yang diperlukan untuk menyusun dataset akhir yang siap digunakan dalam pemodelan berdasarkan data mentah yang telah dikumpulkan. Aktivitas yang dilakukan mencakup seleksi tabel, record, dan atribut yang relevan, serta pembersihan dan transformasi data guna meningkatkan kualitas data dan memastikan kesesuaiannya dengan kebutuhan model yang akan dibangun.
+Key Questions :
+What data cleaning is needed?
+What transformations are required for the model?
+How to handle missing values and class imbalance?
+
+Use Case : Stroke Prediction
+Data Cleaning
+Imputasi Missing Values BMI: 201 nilai N/A pada kolom 'bmi' diisi menggunakan median BMI berdasarkan kelompok usia dan jenis kelamin.
+Penghapusan Duplikat: memeriksa dan menghapus data duplikat untuk menjaga integritas dataset.
+Penanganan kategori langka: 1 baris gender 'Other' dipertimbangkan untuk dihapus karena tidak representatif.
+Transformasi &amp; Encoding
+Label Encoding: variabel biner 'ever_married' (Yes/No → 1/0) dan 'Residence_type' (Urban/Rural → 1/0).
+One-Hot Encoding: variabel multi-kategori 'gender', 'work_type', 'smoking_status' untuk menghindari ordinal bias.
+Normalisasi: Min-Max Scaling pada variabel numerik (age, avg_glucose_level, bmi) agar model tidak bias terhadap skala besar.
+Penanganan Class Imbalance
+SMOTE (Synthetic Minority Over-sampling Technique): membuat sampel sintetis kelas minoritas (stroke=1) untuk menyeimbangkan proporsi kelas.
+Evaluasi menggunakan F1-Score, AUC-ROC, dan Recall — bukan hanya Accuracy, karena data tidak seimbang.
+Pembagian Dataset
+Split 80% data latih (training set) dan 20% data uji (testing set).
+Stratified split: memastikan proporsi kelas stroke terjaga di kedua subset.
+
+MODELING PEMODELAN
+In this phase, various modeling techniques are selected and applied, and their parameters are calibrated to optimal values. This phase and the data preparation phase often have close links — some techniques have specific requirements on the form of data.
+Key Questions :
+What modeling technique is appropriate?
+What are the model parameters?
+How to assess model quality during build phase?
+
+Use Case : Stroke Prediction
+Pemilihan Teknik Pemodelan
+
+Algoritma
+Alasan Pemilihan
+Kelebihan
+Logistic Regression
+Baseline model, mudah diinterpretasi
+Menghasilkan probabilitas &amp; koefisien yang bermakna medis
+Decision Tree
+Aturan keputusan dapat divisualisasikan
+Mudah dijelaskan kepada tenaga medis non-teknis
+Random Forest
+Ensemble, robust terhadap overfitting
+Akurasi tinggi + feature importance otomatis
+XGBoost
+Performa tinggi pada data tabular &amp; imbalanced
+Gradient boosting efektif untuk class imbalance
+Proses Training &amp; Tuning
+Semua algoritma dilatih menggunakan data latih yang telah diproses dan diseimbangkan dengan SMOTE.
+Hyperparameter tuning menggunakan Grid Search Cross-Validation (CV=5) dengan metrik optimasi AUC-ROC.
+Hasil setiap model dibandingkan untuk memilih model terbaik yang dibawa ke fase Evaluation.
+Feature Importance (Perkiraan)
+age — usia adalah prediktor stroke paling kuat secara klinis.
+avg_glucose_level — kadar glukosa tinggi (diabetes) meningkatkan risiko stroke signifikan.
+bmi — obesitas berkorelasi dengan faktor risiko kardiovaskular termasuk stroke.
+hypertension — hipertensi adalah faktor risiko stroke yang paling dikenal secara medis.
+heart_disease — penyakit jantung meningkatkan risiko pembentukan bekuan darah pemicu stroke.
+
+EVALUATION EVALUASI
+At this stage in the project you have built a model (or models) that appears to have high quality, from a data analysis perspective. Before proceeding to final deployment of the model, it is important to more thoroughly evaluate the model, and review the steps executed to construct the model, to be certain it properly achieves the business objectives.
+Key Questions :
+Does the model meet the business success criteria?
+Which aspects of the model should be tested more?
+Should we proceed to deployment?
+
+Use Case : Stroke Prediction
+Metrik Evaluasi
+
+Metrik
+Definisi
+Target
+Relevansi untuk Stroke
+Accuracy
+Proporsi prediksi benar dari total prediksi
+—
+Kurang ideal karena class imbalance
+Precision
+Dari prediksi stroke, berapa yang benar stroke
+&gt;= 0.60
+Menghindari false alarm berlebihan
+Recall (Sensitivity)
+Dari semua kasus stroke, berapa yang terdeteksi
+&gt;= 0.75
+Kritis — stroke tidak boleh terlewat
+F1-Score
+Harmonic mean Precision &amp; Recall
+&gt;= 0.65
+Keseimbangan precision dan recall
+AUC-ROC
+Kemampuan diskriminasi model secara keseluruhan
+&gt;= 0.80
+Metrik utama untuk imbalanced data
+Metode Validasi
+Confusion Matrix: menganalisis distribusi True Positive, True Negative, False Positive, dan False Negative.
+k-Fold Cross-Validation (k=5): memastikan model tidak overfit pada satu subset data tertentu.
+SHAP Analysis: interpretasi prediksi individual untuk memastikan hasil model logis secara medis.
+Keputusan
+Jika model memenuhi semua success criteria → lanjut ke fase Deployment.
+Jika model belum memenuhi kriteria → iterasi kembali ke fase Data Preparation atau Modeling untuk penyesuaian.
+
+DEPLOYMENT PENERAPAN
+Creation of the model is generally not the end of the project. Even if the purpose of the model is to increase knowledge of the data, the knowledge gained will need to be organized and presented in a way that the customer can use it.
+Key Questions :
+How will the model be used in production?
+Who are the end users and how will they interact with the model?
+What monitoring plan is needed post-deployment?
+
+Use Case : Stroke Prediction
+Rencana Deployment
+Model terbaik disimpan menggunakan library joblib atau pickle untuk digunakan kembali tanpa melatih ulang.
+Membangun antarmuka web berbasis Streamlit atau Flask: tenaga medis memasukkan data pasien dan mendapatkan prediksi risiko stroke secara real-time.
+Dashboard visualisasi menampilkan distribusi faktor risiko dan tingkat kepercayaan prediksi.
+Dokumentasi teknis dan panduan penggunaan disusun untuk memudahkan adopsi pengguna akhir.
+Monitoring Pasca Deployment
+Pemantauan distribusi data input secara berkala untuk mendeteksi data drift.
+Evaluasi ulang performa model minimal setiap 6 bulan atau jika ditemukan penurunan performa signifikan.
+Pembaruan model dilakukan jika akurasi turun di bawah threshold yang ditetapkan.
+Feedback
+Pengumpulan feedback dari tenaga medis terkait relevansi dan kegunaan prediksi model.
+Analisis misclassification untuk memahami pola kesalahan model dan dijadikan dasar perbaikan.
+Hasil feedback menjadi titik awal iterasi siklus CRISP-DM berikutnya untuk peningkatan model secara berkelanjutan.
+

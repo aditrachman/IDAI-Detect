@@ -1,0 +1,23 @@
+
+Nama
+Ahmad dwi tama saputra
+Npm.
+24.0504.0030 / 4A
+matkul
+Data mining
+
+RINGKASAN MATERI ASOSIASI
+PENGERTIAN
+Asosiasi adalah salah satu metode dalam Data Mining yang bertujuan untuk mengidentifikasi hubungan atau keterkaitan di antara data yang ada. Metode ini umumnya dimanfaatkan untuk menganalisis pola transaksi pembelian pelanggan
+TUJUAN ASOSIASI
+Mengidentifikasi pola hubungan antar item dalam kumpulan data.
+Memahami kebiasaan dan perilaku pelanggan.
+Menjadi dasar dalam pengambilan keputusan bisnis.
+Mendukung pengembangan sistem rekomendasi produk.
+Meningkatkan efektivitas strategi pemasaran dan penjualan.
+UKURAN PENTING DALAM ASOSIASI
+a. SupportSupport merupakan ukuran yang menggambarkan seberapa sering suatu item atau kombinasi item muncul dalam keseluruhan transaksi. Semakin tinggi nilai support, semakin umum item tersebut ditemukan dalam data.
+b. ConfidenceConfidence berfungsi untuk mengukur tingkat keyakinan dari suatu aturan asosiasi. Nilai ini mencerminkan seberapa besar kemungkinan item B akan muncul apabila item A sudah muncul sebelumnya.
+c. LiftLift digunakan untuk mengukur seberapa erat hubungan antara dua item. Apabila nilai lift lebih dari 1, maka terdapat hubungan yang positif dan signifikan di antara kedua item tersebut.
+KESIMPULAN
+Asosiasi adalah metode Data Mining yang digunakan untuk menemukan hubungan antar item dalam data. Kekuatan hubungan tersebut diukur menggunakan support, confidence, dan lift. Hasil analisis asosiasi dapat membantu perusahaan memahami perilaku pelanggan, meningkatkan strategi pemasaran, mengembangkan rekomendasi produk, dan mengoptimalkan penjualan.

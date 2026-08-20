@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IDAI-Detect — Deteksi Teks AI Bahasa Indonesia</title>
+<style>
+  :root {
+    --bg: #0f1117; --panel: #181b25; --border: #2a2f3d;
+    --text: #e8eaf0; --muted: #9aa3b5;
+    --ai: #ff5d5d; --gray: #f0b429; --human: #3ddc97;
+    --em: #ff5d5d; --closing: #ff9f43; --enumerasi: #ffd166;
+    --hedging: #c084fc; --transisi: #60a5fa; --puffery: #f472b6;
+    --kontras: #34d399; --basabasi: #f87171;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Segoe UI", system-ui, sans-serif; line-height: 1.6;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
+  header h1 { margin: 0; font-size: 28px; }
+  header p { color: var(--muted); margin: 6px 0 0; }
+  .note { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  textarea {
+    width: 100%; min-height: 220px; margin-top: 24px; padding: 16px;
+    background: var(--panel); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; font: 14px/1.7 inherit; resize: vertical;
+  }
+  textarea:focus { outline: none; border-color: #4a5266; }
+  .row { display: flex; gap: 12px; align-items: center; margin-top: 12px; }
+  button {
+    padding: 12px 28px; border: none; border-radius: 10px; cursor: pointer;
+    background: #4f8cff; color: #fff; font-size: 15px; font-weight: 600;
+  }
+  button:hover { background: #3f7bf0; }
+  button:disabled { opacity: .5; cursor: wait; }
+  .status { color: var(--muted); font-size: 14px; }
+  .file-btn {
+    position: relative; display: inline-block; overflow: hidden;
+    padding: 10px 20px; border: 1px dashed #4a5266; border-radius: 10px;
+    cursor: pointer; color: var(--muted); font-size: 14px;
+  }
+  .file-btn:hover { border-color: #4f8cff; color: var(--text); }
+  .file-btn input[type=file] {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0; cursor: pointer;
+  }
+
+  /* hasil */
+  #result { display: none; margin-top: 32px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px 24px; margin-top: 16px;
+  }
+  .verdict-line { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .score-badge {
+    font-size: 48px; font-weight: 800; line-height: 1;
+    padding: 12px 18px; border-radius: 12px; min-width: 130px; text-align: center;
+  }
+  .score-badge.ai { background: rgba(255,93,93,.15); color: var(--ai); }
+  .score-badge.abu-abu { background: rgba(240,180,41,.15); color: var(--gray); }
+  .score-badge.manusia { background: rgba(61,220,151,.15); color: var(--human); }
+  .verdict-meta { color: var(--muted); font-size: 14px; }
+  .warn {
+    margin-top: 12px; padding: 10px 14px; border-radius: 8px; font-size: 14px;
+    background: rgba(240,180,41,.1); color: var(--gray);
+  }
+
+  h3 { margin: 24px 0 10px; font-size: 16px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+  .bars { display: grid; gap: 8px; }
+  .bar-row { display: grid; grid-template-columns: 120px 1fr 44px; gap: 10px; align-items: center; font-size: 13px; }
+  .bar-row .name { color: var(--muted); text-align: right; }
+  .bar-track { background: #232838; border-radius: 6px; height: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; }
+  .bar-row .val { font-variant-numeric: tabular-nums; color: var(--muted); }
+
+  /* highlight kalimat */
+  .doc-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .seg { display: inline-flex; background: #232838; border-radius: 8px; padding: 3px; }
+  .seg button {
+    padding: 6px 16px; border: none; border-radius: 6px; cursor: pointer;
+    background: transparent; color: var(--muted); font-size: 13px; font-weight: 600;
+  }
+  .seg button.active { background: #4f8cff; color: #fff; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 10px; border-radius: 999px; background: #232838;
+    font-size: 12px; color: var(--text); cursor: help; white-space: nowrap;
+  }
+  .chip .dot { width: 8px; height: 8px; border-radius: 50%; }
+  #doc { margin-top: 12px; max-height: 480px; overflow-y: auto; padding-right: 8px; }
+  #doc p { margin: 0 0 14px; font-size: 14.5px; line-height: 1.9; text-align: justify; }
+  mark {
+    padding: 1px 3px; border-radius: 4px; color: inherit;
+    border-bottom: 2px solid transparent;
+  }
+  .block-sent {
+    padding: 10px 14px; border-radius: 8px; margin-bottom: 8px;
+    background: #1a1e2a; font-size: 14.5px; line-height: 1.7;
+  }
+  .block-tags { margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .mini-chip {
+    padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 700;
+    color: #111; white-space: nowrap;
+  }
+  .empty-note { color: var(--muted); font-size: 14px; }
+  .summary { font-size: 13px; color: var(--muted); margin-top: 10px; }
+  footer { margin-top: 48px; font-size: 12px; color: var(--muted); text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>IDAI-Detect</h1>
+    <p>Deteksi teks berbahasa Indonesia buatan AI — transparan, dengan alasan per kalimat.</p>
+    <p class="note">v0 (rule-based) · ini indikasi, bukan vonis · teks di bawah ~300 kata kurang bisa dipercaya</p>
+  </header>
+
+  <textarea id="input" placeholder="Tempel teks di sini, lalu klik Analisis..."></textarea>
+  <div class="row">
+    <button id="btn" onclick="analyze()">Analisis</button>
+    <span class="status" id="status"></span>
+  </div>
+  <div class="row">
+    <label class="file-btn">
+      <input type="file" id="file" accept=".txt,.docx,.pdf" onchange="upload()">
+      <span id="file-label">📎 Upload file (.txt / .docx / .pdf)</span>
+    </label>
+    <span class="status" id="file-status"></span>
+  </div>
+
+  <div id="result">
+    <div class="card">
+      <div class="verdict-line">
+        <div class="score-badge" id="badge">—</div>
+        <div>
+          <div style="font-size:22px;font-weight:700" id="verdict-text">—</div>
+          <div class="verdict-meta" id="meta"></div>
+        </div>
+      </div>
+      <div class="warn" id="warn" style="display:none">⚠️ Teks pendek — confidence rendah, hasil kurang bisa dipercaya.</div>
+    </div>
+
+    <h3>Breakdown sinyal</h3>
+    <div class="card"><div class="bars" id="bars"></div></div>
+
+    <h3>Kalimat yang mencurigakan</h3>
+    <div class="card">
+      <div class="doc-toolbar">
+        <div class="seg">
+          <button id="mode-inline" class="active" onclick="setMode('inline')">Inline</button>
+          <button id="mode-block" onclick="setMode('block')">Block</button>
+        </div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="summary" id="summary"></div>
+      <div id="doc"></div>
+    </div>
+  </div>
+
+  <footer>IDAI-Detect · rule-based multi-sinyal · Muhammad Aditya Rachman</footer>
+</div>
+
+<script>
+const FLAG_COLORS = {
+  em_dash: "var(--em)", closing: "var(--closing)", enumerasi: "var(--enumerasi)",
+  hedging: "var(--hedging)", transisi: "var(--transisi)", puffery: "var(--puffery)",
+  kontras: "var(--kontras)", basabasi: "var(--basabasi)",
+};
+const FLAG_SHORT = {
+  em_dash: "em dash", closing: "penutup analitik", enumerasi: "enumerasi",
+  hedging: "hedging", transisi: "transisi kaku", puffery: "puffery",
+  kontras: "bukan X tapi Y", basabasi: "basa-basi",
+};
+const FLAG_DESC = {
+  em_dash: "Tanda pisah (—) di prosa — pola khas AI",
+  closing: "Kalimat penutup analitik (merangkum ulang analisis)",
+  enumerasi: "Enumerasi sistematis (Pertama/Kedua..., 1. 2. 3.)",
+  hedging: "Kata hati-hati/hedging (cenderung, kemungkinan...)",
+  transisi: "Transisi kaku (selain itu, dengan demikian...)",
+  puffery: "Frasa lebay (memainkan peran, menjadi bukti...)",
+  kontras: "Kontras 'bukan X tapi Y'",
+  basabasi: "Basa-basi sisa chat (semoga membantu...)",
+};
+const SIGNAL_NAMES = {
+  em_dash: "Em dash prosa", closing: "Penutup analitik", enumerasi: "Enumerasi",
+  burstiness: "Burstiness", hedging: "Hedging", transisi: "Transisi",
+  puffery: "Puffery", kontras: "Kontras", basabasi: "Basa-basi",
+};
+const BAR_COLORS = ["#ff5d5d", "#ff9f43", "#ffd166", "#c084fc", "#60a5fa", "#f472b6", "#34d399", "#f87171", "#4f8cff"];
+
+async function analyze() {
+  const input = document.getElementById("input");
+  const btn = document.getElementById("btn");
+  const status = document.getElementById("status");
+  if (!input.value.trim()) { status.textContent = "Isi teksnya dulu, Tuan~"; return; }
+  btn.disabled = true; status.textContent = "Menganalisis...";
+  try {
+    const res = await fetch("/api/analyze", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: input.value }),
+    });
+    const data = await res.json();
+    if (data.error) { status.textContent = data.error; return; }
+    render(data);
+    status.textContent = "";
+  } catch (e) {
+    status.textContent = "Error: " + e.message;
+  } finally { btn.disabled = false; }
+}
+
+async function upload() {
+  const input = document.getElementById("file");
+  const fileStatus = document.getElementById("file-status");
+  const label = document.getElementById("file-label");
+  if (!input.files.length) return;
+  const file = input.files[0];
+  label.textContent = "📄 " + file.name;
+  fileStatus.textContent = "Membaca file...";
+  try {
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await fetch("/api/upload", { method: "POST", body: fd });
+    const data = await res.json();
+    if (data.error) { fileStatus.textContent = data.error; return; }
+    render(data);
+    fileStatus.textContent = "✅ " + file.name + " dianalisis (" + data.words_analyzed + " kata)";
+  } catch (e) {
+    fileStatus.textContent = "Error: " + e.message;
+  } finally {
+    input.value = "";  // reset biar file yang sama bisa dipilih ulang
+  }
+}
+
+let currentMode = "inline";
+let lastData = null;
+
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById("mode-inline").classList.toggle("active", mode === "inline");
+  document.getElementById("mode-block").classList.toggle("active", mode === "block");
+  if (lastData) renderDoc(lastData);
+}
+
+function render(d) {
+  lastData = d;
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+  const badge = document.getElementById("badge");
+  badge.textContent = Math.round(d.score * 100) + "%";
+  badge.className = "score-badge " + d.verdict;
+  document.getElementById("verdict-text").textContent =
+    d.verdict === "AI" ? "Kemungkinan besar ditulis AI" :
+    d.verdict === "manusia" ? "Kemungkinan besar ditulis manusia" : "Zona abu-abu";
+  document.getElementById("meta").textContent =
+    "Skor keyakinan AI: " + d.score + " · " + d.words_analyzed + " kata dianalisis";
+  const warn = document.getElementById("warn");
+  warn.style.display = d.low_confidence ? "block" : "none";
+
+  const bars = document.getElementById("bars");
+  bars.innerHTML = "";
+  let i = 0;
+  for (const [key, val] of Object.entries(d.signals)) {
+    if (!(key in SIGNAL_NAMES) || typeof val !== "number") continue;
+    const row = document.createElement("div");
+    row.className = "bar-row";
+    row.innerHTML =
+      '<span class="name">' + SIGNAL_NAMES[key] + "</span>" +
+      '<div class="bar-track"><div class="bar-fill" style="width:' + (val * 100) + "%;background:" + BAR_COLORS[i % BAR_COLORS.length] + '"></div></div>' +
+      '<span class="val">' + val.toFixed(2) + "</span>";
+    bars.appendChild(row);
+    i++;
+  }
+
+  const legend = document.getElementById("legend");
+  legend.innerHTML = Object.keys(FLAG_COLORS)
+    .map(k => '<span class="chip" title="' + FLAG_DESC[k] + '"><span class="dot" style="background:' + FLAG_COLORS[k] + '"></span>' + FLAG_SHORT[k] + "</span>")
+    .join("");
+
+  const all = d.paragraphs.flatMap(p => p.sentences);
+  const flaggedCount = all.filter(s => s.flagged).length;
+  document.getElementById("summary").textContent =
+    "Kalimat mencurigakan: " + flaggedCount + " dari " + all.length + " kalimat";
+
+  renderDoc(d);
+}
+
+function renderDoc(d) {
+  const doc = document.getElementById("doc");
+  const flagged = [];
+  for (const p of d.paragraphs) {
+    for (const s of p.sentences) if (s.flagged) flagged.push(s);
+  }
+  if (d.paragraphs.length === 0 || (currentMode === "block" && flagged.length === 0)) {
+    doc.innerHTML = '<p class="empty-note">Tidak ada kalimat mencurigakan yang terdeteksi.</p>';
+    return;
+  }
+  if (currentMode === "block") {
+    doc.innerHTML = flagged.map(s => {
+      const color = FLAG_COLORS[s.flags[0]] || "#888";
+      const tags = s.flags.map(f =>
+        '<span class="mini-chip" style="background:' + FLAG_COLORS[f] + '">' + FLAG_SHORT[f] + "</span>"
+      ).join("");
+      return '<div class="block-sent" style="border-left:3px solid ' + color + '">' +
+        escapeHtml(s.text) + '<div class="block-tags">' + tags + "</div></div>";
+    }).join("");
+  } else {
+    doc.innerHTML = d.paragraphs.map(p => {
+      const html = p.sentences.map(s => {
+        if (!s.flagged) return escapeHtml(s.text);
+        const color = FLAG_COLORS[s.flags[0]] || "#888";
+        const label = s.flags.map(f => FLAG_SHORT[f]).join(", ");
+        return '<mark style="background:' + color + "55;border-bottom-color:" + color + '" title="' + label + '">' + escapeHtml(s.text) + "</mark>";
+      }).join(" ");
+      return "<p>" + html + "</p>";
+    }).join("");
+  }
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+</script>
+</body>
+</html>

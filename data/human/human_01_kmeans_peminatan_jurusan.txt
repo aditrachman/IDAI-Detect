@@ -1,0 +1,584 @@
+=== METADATA ===
+sumber: jurnal manusia.pdf -> Penerapan Algoritma K-Means Dalam Metode Clustering Untuk Peminatan Jurusan Bagi Siswa Swasta Pelita Raya Kota Jambi (Jurnal Manajemen Sistem Informasi Vol.5 No.3, 2020, Firza & Sarjono, STIKOM Dinamika Bangsa Jambi)
+ground_truth: HUMAN (dugaan Tuan Adit + dianalisis Raya-chan: bukti kuat manusianya)
+topik: K-Means clustering peminatan jurusan SMK (RapidMiner)
+format: PDF -> pdftotext -layout
+=== ISI ===
+MANAJEMEN SISTEM INFORMASI
+Vol. 5, No.3, September 2020,
+                                                                                                    ◼ 371
+
+Penerapan Algoritma K-Means Dalam Metode Clustering
+Untuk Peminatan Jurusan Bagi Siswa Swasta Pelita Raya
+                    Kota Jambi
+
+                                             FirzaI, Sarjono2
+              Pascasarjana, Magister Sistem Informasi, STIKOM Dinamika Bangsa, Jambi
+                   Jl. Jend. Sudirman Thehok-Jambi Telp: 0741-35096 Fax : 35093
+                         E-mail: fiirzaaaa@gmail.com1, sarjono@gmail.com 2
+
+
+Abstract
+
+This research is aimed to decide major for students of SMK Swasta Pelita Raya Jambi. The interest of
+major is implemented when students are in the tenth grade and will move to eleventh grade. The process
+of major determination will be occurred repeatedly every year. This research will conduct Clustering by
+using the data of students of SMK Swasta Pelita Raya Jambi and utilize the science of mining data,
+Algorithm K-Means Clustering. Algorithm K-Means Clustering in this research is limited applying with
+using the mining tools data, Rapid Miner Studio. Clustering is the group of record, observation, or case in
+the similar object classes. The result of algorithm K-Means Means in this research produces a solution or
+a reference for dividing apprenticeship place that is suitable for interest and talent of students in the
+eleventh grade of Multimedia and Accounting.
+
+Keywords: Algorithms, K-Means, Clustering, SMK, Major
+
+Abstrak
+
+Penelitian ini bertujuan untuk menentukan jurusan bagi siswa Sekolah Menengah Kejuruan (SMK)
+Swasta Pelita Raya Kota Jambi. Peminatan jurusan dilakukan pada saat siswa berada di kelas X (sepuluh)
+dan akan naik ke kelas XI (sebelas). Proses penentuan jurusan bagi siswa SMK akan terjadi secara
+berulang setiap tahun. Jumlah data yang banyak tersebut maka sangat mungkin terjadi kesalahan ketika
+proses peminatan jurusan dilakukan. Penelitian ini akan melakukan Clustering dengan menggunakan data
+siswa SMK Swasta Pelita Raya Kota Jambi dan memanfaatkan ilmu data mining yaitu Algoritma K-
+Means Clustering. Algoritma K-Means Clustering pada penelitian ini sebatas menerapkan dengan
+menggunakan data mining tools berupa RapidMiner Studio. Metode yang akan digunakan adalah metode
+Clustering. Clustering merupakan penggelompokkan record, observasi, atau kasus ke dalam kelas - kelas
+objek yang mirip. Hasil penerapan algoritma K-Means Clustering pada penelitian ini menghasilkan solusi
+atau referensi pembagian tempat magang jurusan sesuai minat dan bakat pada siswa dikelas sebelas
+Multimedia dan Akuntansi.
+
+Kata kunci: Algoritma, K-Means, Clustering, SMK, Jurusan.
+
+© 2020 Jurnal MANAJEMEN SISTEM INFORMASI.
+
+
+1. Pendahuluan
+
+Upaya untuk meningkatkan mutu pendidikan, selayaknya mendapat dukungan dan peran serta aktif dari
+semua pihak. Salah satu upaya pemerintah meningkatkan pendidikan ke arah yang lebih baik adalah
+memberlakukan penerapan kurikulum 2013. Kurikulum 2013 hendak mengedepankan guru BK dengan
+adanya program peminatan. Kurikulum 2013 menekankan terselenggaranya proses pembelajaran secara
+interaktif, inspiratif, menyenangkan, menantang, memotivasi siswa untuk berpartisipasi aktif serta
+memberi ruang yang cukup untuk pengembangan aktivitas, kreatifitas, dan kemandirian sesuai dengan
+
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+ISSN: 2528-0082                                                                                372
+
+potensi dasar, bakat, minat dan perkembangan fisik serta psikologis peserta didik (Selvia Tristianty
+Hidajat, 2016 ; 59).
+
+SMK Swasta Pelita Raya Jambi berdiri tahun 2004, saat ini ada dua program keahlian khusus, yaitu
+Akuntansi dan Multimedia. Di SMK hendaknya peminatan dilakukan pada saat siswa mendaftar dan
+diulang kembali pada awal masa sekolah. Jumlah siswa yang cukup banyak di SMK Pelita Raya,
+sehingga mendorong guru BK mengembangkan skala peminatan. Tujuannya untuk menerapkan teknologi
+informasi komputer sebagai media yang membantu pelaksanaan tugas atau layanan Bimbingan dan
+Konseling di sekolah. Skala ini bertujuan melihat peminatan dalam diri siswa, apakah sudah sesuai
+dengan minatnya.
+
+Selama ini guru BK SMK Swasta Pelita Raya Jambi pengerjaan administrasi maupun olah data selalu
+dilakukan secara manual. Hal tersebut tentunya membutuhkan waktu, tenaga, dan kertas yang cukup
+banyak. Salah satu hal yang menyebabkan guru bimbingan dan konseling di sekolah nampak pasif adalah
+kurang berani berinovasi dan membuat suatu proses atau program layanan yang berbeda dari yang
+sebelumnya.
+
+Kemajuan teknologi dan ilmu pengetahuan adalah salah satu hal positif yang berdampak bagi dunia
+pendidikan secara umum dan bimbingan konseling secara khusus. Guru BK harus mengedepankan
+potensinya dalam menerapkan iptek dan mengelola kegiatan layanan bimbingan dan konseling.
+
+Guru BK harus berperan besar menjadi pembangkit semangat siswa yang berdasar pada prinsip bahwa
+setiap anak adalah unik. Mengacu pada potensi siswa, guru bimbingan dan konseling berkewajiban
+memberikan gambaran mengenai potensi dan menempatkan, menyalurkan siswa sesuai dengan bakat, dan
+minat. Dengan cara seperti ini guru bimbingan dan konseling menjadi egent of social change, agen
+perubahan sosial yang mampu melahirkan generasi bangsa yang handal dan mampu meneruskan
+pembangunan di masa yang akan datang. Pendidikan berbasis kompetensi menekankan pada kemampuan
+yang harus dimiliki oleh calon siswa agar dapat mengikuti kompetensi dan kurikulum sesuai jurusan.
+Berdasarkan analisis diatas maka penulis tertarik untuk melakukan penelitian terhadap permasalahan yang
+dihadapi, bagaimana menyusun penerapan Algoritma K-Means dengan menggunakan metode Clustering
+yang tepat agar dapat menghasilkan sebuah penerapan clustering peminatan jurusan dalam bentuk sistem
+yang nantinya bisa dijadikan SMK Swasta Pelita Raya Kota Jambi sebagai landasan untuk mewujudkan
+suatu sistem informasi yang terintegrasi dan dapat dikembangkan sesuai dengan perkembangan organisasi
+tersebut pada masa mendatang.
+
+2. Tinjauan Pustaka
+
+Tinjauan pustaka menguraikan hasil-hasil penelitian yang pernah dilakukan oleh peneliti sebelumnya
+yang mempunyai kaitan dengan penelitian ini. Berikut tinjauan pustaka yang terkait dengan penelitian :
+a. Penerapan Algoritma. K-Means dalam Data Mining untuk Peminatan Jurusan Bagi Siswa Kelas X
+   (Studi Kasus: SMA Negeri 29 Jakarta).
+
+
+   Penelitian ini dilakukan oleh Nurhayati, dan Luigi Ajeng Pratiwi yaitu membahas mengenai tentang
+   Algoritma.K-Means.dapat diimplemen.-tasikan dalam teknologi data mining untuk sistem peminatan
+   jurusan bagi siswa kelas X SMA dengan tingkat akurasi sebesar 0.753 atau 75.3% atau 75% terhadap
+   253 data sampel. Laju kesalahan sebesar 0.247 atau 24.7% atau 25%. Dengan tingkat akurasi sebesar
+   75% aplikasi peminatan jurusan cukup efektif untuk membantu pihak sekolah dalam menentukan
+   minat siswa kelas X sesuai dengan nilai akademik yang dimiliki masing-masing siswa.
+
+b. Clustering.Data Nilai Siswa SMA Untuk Penentuan Jurusan Menggunakan Algoritma Fuzzy C-
+   Means.
+
+
+
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+ISSN: 2528-0082                                                                                      373
+
+   Penelitian ini disusun oleh Fajar Akbar yang membahas tentang Penelitian ini dibuat untuk mengolah
+   data nilai hasil evaluasi akademik siswa yang diperuntukan untuk menentukan pemilihan jurusan pada
+   SMAN 84 Jakarta, Untuk menyelesaikan permasalahan ini penulis menggunakan Fuzy C-Means untuk
+   memnentukan jurusan dan untuk mendistribusikan siswa jurusan sesuai dengan kuota kelas yang ada
+   penulis mengguankan algoritma genetika. Kesimpulan dari penelitian ini adalah metode FCM
+   memperoleh tingkat akurasi sebesar 72,26 % dalam penerapan penentuan jurusan pada SMA 84
+   Jakarta.
+
+c. Analisis Data Lulusan dengan Data Mining untuk Mendukung Strategi Promosi Universitas Lancang
+   Kuning
+
+   Penelitian ini dilakukan oleh Elvira Asril, Fana Wiza, & Yogi Yunefri yang membahas tentang
+   Setelah dilakukan pengelompokan data mahasiswa melalui persebaran wilayah berdasarkan cluster
+   yang terbentuk adalah dengan mengirim tim promosi berdasarkan potensi akademik mahasiswa
+   dengan melihat rata-rata IPK pada setiap cluster. Dari hasil pengolahan data tersebut ada beberapa
+   saran atau usul kepada bagian promosi Universitas Lancang Kuning dalam rangka meningkatkan
+   kualitas mutu lulusan, yaitu :
+   a. Tim promosi yang dikirim sebaiknya memiliki pengetahuan dan potensi lebih dari satu jurusan
+       untuk melakukan promosi pada kota yang memiliki minat lebih besar berdasarkan hasil klaster
+       yang didapat agar yang dilakukan lebih efektif dan efisien. Pihak promosi dapat membagi tim-tim
+       marketing untuk melakukan promosi di kotakota tersebut sehingga sumber daya yang dibutuhkan
+       disetiap kota tidak terlalu banyak.
+   b. Apabila pihak promosi Unilak ingin mendapatkan calon mahasiswa yang memiliki tingkat
+       akademik di atas rata-rata, maka dapat dianalisa berdasarkan hasil rata-rata nilai IPK dari setiap
+       mahasiswa yang telah lulus berdasarkan hasil klaster di penelitian ini. Apabila Unilak memiliki
+       rencana promosi hingga ke provinsi tetangga, hal ini juga akan berpeluang menjaring mahasiswa
+       baru yang banyak dan mampu lulus dengan IPK tinggi. Hal ini terlihat pada hasil klaster.
+
+3. Metodologi
+
+Dalam menyelesaikan penelitian ini dilakukan beberapa tahapan yang peneliti lakukan melalui kerangka
+kerja penelitian, yaitu :
+
+
+
+
+                                       Gambar 1. Alur Penelitian
+
+
+3.1 Identifikasi Masalah
+
+Pada tahap ini penulis mengidentifikasi masalah yang terjadi dalam sistem peminatan jurusan yang
+gunakan di SMK Pelita Raya. Hal ini bertujuan untuk membuat daftar permasalahan apa saja yang akan
+diangkat pada penelitian ini.
+
+
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+ISSN: 2528-0082                                                                                  374
+
+3.2 Studi Literatur
+
+Mempelajari serta memahami teori-teori yang menjadi pedoman dan referensi guna penyelesaian masalah
+dan mempelajari penelitian yang relevan dengan masalah yang diteliti.
+
+3.3 Pengumpulan Data
+
+   Pengumpulan data dalam penelitian ini dilakukan dengan beberapa cara yaitu sebagai berikut:
+
+1. Pengamatan (Observation)
+
+   Peneliti melakukan pengamatan secara langsung terhadap proses-proses yang terjadi pada SMK Pelita
+   Raya Kota Jambi sehingga penulis memahami proses yang sedang berjalan.
+
+2. Wawancara (Interview)
+
+   Selain pengamatan langsung penulis juga melakukan tanya jawab langsung kepada Ibu Dian Suryanti,
+   S.S selaku Guru Bimbingan Konseling di Sekolah Swasta Pelita Raya Kota Jambi untuk mendapatkan
+   informasi secara lisan dengan tujuan memperoleh keterangan-keterangan yang dapat dipercaya dan
+   bertangung jawab terhadap kebenaran fakta mengenai masalah yang diangkat.
+   Wawancara dilakukan dengan 2 (dua) bentuk, yaitu wawancara terstruktur (dilakukan melalui
+   pertanyaan-pertanyaan yang telah disiapkan sesuai dengan permasalahan yang akan diteliti) dan
+   wawancara tidak tersetruktur (dilakukan apabila adanya jawaban berkembang diluar sistem
+   permasalahan).
+
+3.4 Analisis Data
+
+Pada tahap ini, peneliti melakukan data selection yaitu menciptakan himpunan data target, atau
+memfokuskan pada variable atau sampel data, dimana penemuan (discovery) akan dilakukan berupa hasil
+angket yang berisi mengenai kriteria – kriteria peminataan peserta didik pada jurusan Multimedia dan
+Akuntansi di SMK Swasta Pelita Raya Kota Jambi. Tahap analisis ini dilakukan untuk dapat menjadi
+gambaran yang akan dibuat di tahap Algoritma K-Means Clustering.
+
+3.5 Perancangan Sistem
+
+Pada tahap ini kita merancang usulan sistem yang baru, penulis menggunakan metode pengembangan
+sistem dengan model Prototype. Prototype adalah sebuah metode pengembangan software yang banyak
+digunakan pengembang agar dapat saling berinteraksi dengan pelangan selama proses pembuatan sistem
+dan terdiri dari 5 tahap yang saling terkait atau mempengaruhi yaitu sebagai berikut:
+
+
+
+
+                                     Gambar 2. Model Prototype
+
+Berdasarkan model prototype yang telah digambarkan diatas, maka dapat diuraikan pembahasan masing-
+masing tahap dalam model tersebut adalah sebagai berikut:
+1. Communication / Komunikasi
+
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+ISSN: 2528-0082                                                                                       375
+
+   Tim pengembang perangkat lunak melakukan pertemuan dengan para stakeholder untuk menentukan
+   kebutuhan perangkat lunak yang saat itu diketahui dan untuk menggambarkan area-area dimana
+   definisi lebih jauh untuk iterasi selanjutnya.
+
+2. Quick Plan / Perencanaan Secara Cepat
+
+   Dalam perencanaan ini iterasi pembuatan prototipe dilakukan secara cepat. Setelah itu dilakukan
+   pemodelan dalam bentuk “rancangan cepat”.
+
+3. Modeling Quick Design / Model Rancangan Cepat
+
+   Pada tahap ini memodelkan perencanaan tadi dengan menggunakan beberapa model berorientasi
+   objek dengan menggunakan tools UML yaitu Usecase untuk mendefinisikan fungsi dari sistem, Class
+   Diagram untuk menunjukkan class-class pada sistem, Activity Diagram untuk menggambarkan alur
+   proses bisnis.
+
+4. Construction of Prototype / Pembuatan Prototype
+
+   Dalam pembuatan rancangan cepat berdasarkan pada representasi aspek-aspek perangkat lunak yang
+   akan terlihat oleh para end user (misalnya rancangan antarmuka pengguna atau format tampilan).
+   Rancangan cepat merupakan dasar untuk memulai konstruksi pembuatan prototipe.
+
+5. Deployment Deliery & Feedback / Penyerahan Dan Memberikan Umpan Balik Terhadap
+   Pengembangan
+
+   Prototipe kemudian diserahkan kepada para stakeholder untuk mengevaluasi prototype yang telah
+   dibuat sebelumnya dan memberikan umpan-balik yang akan digunakan untuk memperbaiki spesifikasi
+   kebutuhan. Iterasi terjadi saat pengembang melakukan perbaikan terhadap prototipe tersebut.
+
+3.6 Penulisan Laporan Penelitian
+
+Pada tahap ini, peneliti membuat laporan dari penelitian yang dilakukan oleh peneliti yang berisikan
+laporan penelitian terhadap permasalahan, teori, solusi dan penerapan sistem sehingga penelitian ini dapat
+didokumentasikan secara baik.
+
+4. Hasil dan Pembahasan
+
+4.1 Analisis Sistem Yang Berjalan
+
+
+
+
+                                Gambar 3. Analisis Sistem Yang Berjalan
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+ISSN: 2528-0082                                                                               376
+
+
+Berikut adalah keterangan dari gambar 3 gambaran sistem yang sedang berjalan, antara lain :
+
+1. Siswa SMK kelas X (sepuluh)
+   a. Siswa telah mengikuti proses belajar didalam kelas ataupun didalam laboratarium komputer.
+   b. Siswa telah mendapatkan hasil MID semester genap.
+2. Pilih sampel siswa secara acak
+3. Penyebaran angket
+   Penyeberan angket kepada siswa yang terpilih secara acak.
+4. Pengumpulan berkas berupa angket siswa, orang tua dan lampiran
+   Siswa membawa perlengkapan lampiran, seperti ijazah, SKHU, Raport, Piagam atau sertifikat lomba
+   berkaitan dengan bidang Teknologi Informasi dan Komunikasi, lampiran data perhatian orang tua dan
+   guru BK atau Konselor sekolah mengenai peminataan dibidang Teknologi Informasi dan Komunikasi.
+5. Proses perhitungan secara manual
+6. Memperoleh hasil perhitungan
+7. Pengumuman ketika pembagian Raport genap
+   Hasil perhitungan menjadi arsip sekolah berupa banyak kertas – kertas dan memberikan rekomodasi
+   untuk siswa tersebut jika memiliki minat yang berbeda dari bidang Teknologi Informasi dan
+   Komunikasi atau Bisnis dan Manajemen (pemilihan diawal dan hasil perhitungan cluster peminatan
+   yang berbeda)
+
+4.2 Kelemahan Sistem Yang Berjalan
+
+1.   Pada Penentuan jurusan, banyak yang tidak sesuai minat dengan jurusan siswa kelas 10, dikarenakan
+     siswa memilih jurusan dari keinginan orang tua.
+2.   Ketidaktahuan tentang minat beberapa siswa yang tidak menjadi sampel.
+3.   Membutuhkan waktu yang lama untuk mengetahui minat dari siswa tersebut (bagi yang terpilih
+     menjadi sampel) dikarenakan masih menggunakan sistem manual untuk melakukan proses
+     perhitunganannya.
+
+4.3 Solusi Pemecahan Masalah
+
+
+
+
+                                Gambar 4. Solusi Pemecahan Masalah
+
+4.4 Langkah Algoritma K-Means Clustering
+
+Berdasarkan analisis permasalahan yang ada, maka penulis merancang solusi pemecahan masalah untuk
+mengatasi permasalahan yang terjadi.
+
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+ISSN: 2528-0082                                                                                377
+
+Proses algoritma k-means clustering untuk peminatan jurusan hanya dapat dilakukan di komputer,
+dikarenakan akan banyak iterasi yang dilakukan yang tidak mungkin dilakukan secara manual. Berikut
+adalah gambaran mekanisme dari penerapan algoritma k-means clustering untuk peminatan jurusan :
+  a. Jumlah cluster 2, yaitu jurusan Akuntansi dan Multimedia
+  b. Jumlah data 5
+  c. Jumlah atribut 11
+
+Untuk lebih jelasnya berikut adalah sampel data dari kriteria peminataan pada jurusan Akuntansi dan
+Multimedia:
+
+Tabel 1. Tabel Awal
+ ID     PJ      Kshtn    RM      RI    RIPS     UM    UI     Prestasi    dataortu     BKSMP
+ 1      MM      Yes      74      71    78       40    40     No          Yes          No
+ 2      MM      Yes      83      86    84       20    58     No          Yes          No
+ 3      MM      Yes      80      81    88       38    34     No          Yes          No
+ 63     AK      Yes      75      75    74       58    60     No          Yes          No
+ 64     AK      Yes      77      79    85       38    30     No          Yes          No
+
+Karena data yang terlalu acak akan membuat proses mining memakan waktu lama dan tingkat
+hubungannya pun rendah. Atribut yang digunakan adalah pada tabel 4.2 yang terdiri dari :
+
+Tabel 2. Atribut yang digunakan
+Atribut           Keterangan
+ID                Nomor urut pendaftaran siswa berdasarkan jurusan yang dipilih
+PJ                Peminatan jurusan
+Kshtn             Hasil tes fisik dan kesehatan
+RM                Nilai rata – rata matematika
+RI                Nilai rata – rata bahasa Inggris
+RIPS              Nilai rata – rata IPS
+UM                Nilai UNBK matematika
+UI                Nilai UNBK bahasa Inggris
+Prestasi          Prestasi non akademik yang relevan dengan jurusan
+Dataortu          Data perhatian orang tua
+BKSMP             Data relevan dari guru BK atau konselor SMP pada peminatan pada jurusan
+
+Tahapan selanjutnya adalah inntegrasi data atau transformasi data. Integrasi data merupakan proses
+pengubahan atau penggabunngan data kedalam format yang sesuai untuk diproses dalam data mining.
+Seringkali data yang akan digunakan dalam proses data mining mempunyai format yang belum langsung
+bias digunakan. Oleh karena itu, formatnya perlu dirubah. Dalam penelitian ini data menggunakan
+Algoritma K-Means Clustering. Tahap ini sejalan dengan proses task relevan data.
+
+Tabel 3. Data Test
+ID     PJ                     RM          RI         RIPS          UM          UI
+1      MM                     84          89         78            60          40
+2      MM                     76          77         85            75          40
+3      MM                     76          76         88            50          34
+…      …                      …           …          …             …           …
+63     AK                     75          75         74            58          60
+64     AK                     77          76         74            38          60
+…      …                      …           …          …             …           …
+130 AK                        93          81         81            33          48
+
+
+
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+ISSN: 2528-0082                                                                            378
+
+Tabel 4. Tabel Hasil Perhitungan iterasi 1
+            NO            ID             Cluster 1    Cluster 0       Anggota
+            1             01            0             26,40           Cluster 1
+            2             02            21,95         28,55           Cluster 1
+            3             03            21,66         30,63           Cluster 1
+            4             63            26,40         0               Cluster 0
+            5             64            33,44         20,12           Cluster 0
+
+Tabel 5. Tabel Hasil Perhitungan iterasi 2
+            NO            ID          Cluster 1      Cluster 0       Anggota
+            1             01          11,70          28,39           Cluster 1
+            2             02          14,29          35,39           Cluster 1
+            3             03          14,13          29,60           Cluster 1
+            4             63          25,23          10              Cluster 0
+            5             64          34,09          10,06           Cluster 1
+
+Pada tabel diatas maka dapat disimpulkan bahwa anggota cluster 1 adalah ID 01, 02, 03, dan anggota
+cluster 0 adalah ID 63 dan 64. Sehingga diperoleh keanggotaan cluster tidak berubah dibandingkan
+dengan pengelompokan data sebelumnya, sehingga proses cluster dapat dihentikan.
+
+4.5 Use Case Diagram
+
+Berikut ini adalah Use Case Diagram yang dibuat untuk menggambarkan aktifitas admin pada sistem
+yang akan dibangun :
+
+
+
+
+                                     Gambar 5. Diagram Use Case
+
+
+4.5 Class Diagram
+
+Berikut ini adalah class diagram dimana admin mengelola tentang peminatan jurusan bagi siswa SMK
+Swasta Pelita Raya Kota Jambi.
+
+
+
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+ISSN: 2528-0082                                                                               379
+
+
+
+
+                         Gambar 6. Class Diagram dilihat dari class diagram
+
+4.6 Hasil Implementasi
+
+1. Penerapan data mining menggunakan metode Algoritma K-Means Clustering diaplikasi Rapidminer
+   Studio, adalah :
+
+
+
+
+                     Gambar 4.7 Tampilan Proses Data Mining pada RapidMiner
+
+2. Penerapan data mining menggunakan metode Algoritma K-Means Clustering disistem web, adalah :
+
+
+
+
+                              Gambar 4.8 Tampilan Halaman Perhitungan
+
+
+
+
+                                Gambar 4.9 Tampilan Halaman Laporan
+
+
+
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+ISSN: 2528-0082                                                                                  380
+
+
+
+
+                                  Gambar 4.10 Tampilan Halaman Grafik
+
+5. Kesimpulan
+
+5.1 Simpulan
+Berdasarkan penerapan Algoritma K-means dalam metode Clustering untuk peminatan jurusan bagi siswa
+SMK Swasta Pelita Raya Kota Jambi, maka dapat ditarik kesimpulan sebagai berikut :
+1. Sistem masih dilakukan dengan menggunakan lembar angket dan pengelolaan data menggunakan
+    sistem arsip (non komputer), sehingga membutuhkan waktu yang lama dalam mengelompokan siswa
+    – siswa berdasarkan jurusan yang diminati, dan terjadi penumpukan berkas-berkas angket pada setiap
+    tahun ajaran baru.
+2. Sistem ini menggunakan datamining tools bantu yaitu RapidMiner Studio untuk membantu proses
+    perhitungan Algoritma K-Means Clustering dan Analisis kebutuhan sistem dengan menggunakan alat
+    bantu UML (Inified Modelling Language) dalam bentuk usecase diagram, class diagram, activity
+    diagram.
+3. Penelitian ini menghasilkan rancangan prototype Sistem Informasi Pengelompokan peminatan jurusan
+    pada SMK Swasta Pelita Raya Kota Jambi yang menampilkan output laporan pengelompokan peminat
+    jurusan bagi siswa kelas sepuluh multimedia dan akuntansi, serta dapat menjadi salah satu solusi atau
+    referensi pembagian tempat magang jurusan sesuai minat dan bakat pada siswa dikelas sebelas
+    multimedia dan akuntansi.
+
+5.2 Saran
+Untuk mencapai sesuatu yang diharapkan, penulis memberikan beberapa saran yang diharapkan dapat
+memberikan manfaat. Adapun saran – saran tersebut antara lain :
+1. Penelitian ini menyarankan untuk penelitian selajutnya pada proses perhitungan penilaian
+    pengelompokan peminatan jurusan menggunakan datamining tools lainnya seperti weka, orange atau
+    lainnya sehingga dapat menghasilkan output laporan dan dapat menampilkan penilaian lebih terperinci
+    lagi.
+2. Perancangan sistem yang dibuat saat ini masih sebatas penerapan algoritma k-means clustering untuk
+    peminatan jurusan bagi siswa smk saja sedangkan di Sekolah Swata Pelita Raya memiliki SMA dan
+    memiliki jurusan IPA dan IPS dan diharapkan dapat dilanjutkan ketahap implementasi oleh peneliti
+    selanjutnya dan dapat dipergunakan untuk yang akan datang.
+3. Penelitian ini diharapkan bisa menjadi referensi bagi peneliti lain yang membahas topik yang sama
+    atau sejenis.
+
+
+
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+ISSN: 2528-0082                                                                                 381
+
+6. Daftar Rujukan
+
+[1]   A.S, Rosa; & Shalahuddin, M. 2018. Rekayasa Perangkat Lunak Terstruktur dan Berorientasi
+     Objek. Bandung: PT. Refika Aditama.
+[2] Akbar, Fajar. 2015. Clustering Data Nilai Siswa SMA Untuk Penentuan Jurusan Menggunakan
+     Algoritma Fuzzy C-Means. Jurnal Techno Nusa Mandiri, Volume XII, Nomor 1. Jakarta: Program
+     Pascasarjana Magister Ilmu Komputer STMIK Nusa Mandiri.
+[3] Astuti, Fajar Hermawati. 2013. Data Mining. Yogyakarta: Penerbit Andi.
+[4] Elvira Asril; Fana Wiza; & Yogi Yunefri. 2015. Analisis Data Lulusan dengan Data Mining untuk
+     Mendukung Strategi Promosi Universitas Lancang Kuning. Jurnal Teknologi Informasi &
+     Komunikasi Digital Zone, Volume 6, Nomor 2, Pekanbaru: Universitas Lancang Kuning.
+[5] Kendall, Kenneth E; & Kendall, Julie E. 2011. System Analysis And Design, Eight Edition. United
+     State of America: Pearson Prentice Hal
+[6] Kurniawan Defri; Wibowo Wicaksono; & Yani Parti Astuti. 2016. Pemanfaatan Educational Data
+     Mining (EDM) Untuk Memprediksi Masa Studi Mahasiswa Menggunakan Algoritma C4.5 (Studi
+     Kasus : TI – SI UDINUS). Jurnal Momentum, Volume 12, Nomor 2. Semarang: Universitas Dian
+     Nuswantoro.
+[7] Kusrini. 2007. Konsep dan Aplikasi Sistem Pendukung Keputusan. Yogyakarta: Andy Offset.
+[8] Laudon, Kenneth C; & Laudon, Jane P. 2012. Management Information System (The Digital Firm)
+     Twelfth Edition. United State of America: Pearson Prentice Hall.
+[9] Laudon, Kenneth C; & Laudon, Jane P..2014. Management Information System: Managing the
+     Digital Firm, Fifteenth Edition. England: Pearson Prentice Hall.
+[10] Mardi, Yuli. 2018. Data Mining Rekam Medis Untuk Menentukan Penyakit Terbanyak
+     Menggunakan Decision Tree C4.5. Jurnal Sains dan Informatika, Volume 4, Nomor 11. Padang:
+     Akademik Perekam dan Informasi Kesehatan.
+[11] Melpa Benri Metisen; & Herlina Latipa Sari. 2015. Analisis Clustering Menggunakan Metode K-
+     Means Dalam Pengelompokkan Penjualan Produk Pada Swalayan Fadhila. Jurnal Media Infotama,
+     Volume 11, Nomor 2. Bengkulu: Program Studi Teknik Informatika Fakultas Ilmu Komputer
+     Universitas Dehasen Bengkulu.
+[12] Montolalu, F.A.; Rahayu, S.; & Rusdianto, E. 2015. Rancangan Sistem Pendukung Keputusan
+     Proses Penyidikan Tindak Pidana Menggunakan Metode Analytical Hierarchy Process (Ahp).
+     Inseminar Nasional Informatika (Semnasif) (Vol. 1, No. 1).
+[13] Nasari Fina, & Surya Darma. 2015. Penerapan K-Means Clustering Pada Data Penerimaan
+     Mahasiswa Baru (Studi Kasus : Universitas Potensi Utama). Paper yang dipresentasikan pada
+     Seminar Nasional Teknologi Informasi dan Multimedia 2015. Yogyakarta: STMIK AMIKOM.
+[14] Nurhayati, & Luigi Ajeng Pratiwi. 2015. Penerapan Algoritma K-Means dalam Data Mining untuk
+     Peminatan Jurusan Bagi Siswa Kelas X (Studi Kasus: SMA Negeri 29 Jakarta). Paper yang
+     dipresentasikan pada Seminar Prosiding Ilmiah Nasional Teknologi Komputer (SENATKOM 2015),
+     Volume 1. Padang : Universitas Putra Indonesia YPTK.
+[15] Parinduri, Ikhsan. 2018. Model dan Simulasi Rangkaian RLC Menggunakan Aplikasi Matlab
+     Metode Simulink. Journal of Science and Social Research, Volume 1, Nomor 1. Kisaran : STMIK
+     Royal.
+[16] Rahmat Brillian C.T.I.; dkk. 2017. Implementasi K-Means Clustering Pada RapidMiner Untuk
+     Analisis Daerah Rawan Kecelakan. Jurnal Sains dan Informatika, Paper yang dipresentasikan pada
+     Seminar Nasional Riset Kuantitatif Terapan. Kendari : Universitas Halu Oleo.
+[17] Ridwan Mujib; Hadi Suyono; & M. Sarosa. 2013. Penerapan Data Mining Untuk Evaluasi Kinerja
+     Akademik Mahasiswa Menggunakan Algoritma Naïve Bayes Classifer. Jurnal EECCIS, Volume 7,
+     Nomor 1. Malang : Universitas Brawijaya.
+[18] Rob, Peter; Morris, Steven; & Coronel Carlos. 2013. Database System, Tenth Edition. Boston:
+     Course Technology,Cengage Learning.
+[19] Roth, Roberta M; dkk. 2012. System Analysis and Design, Fifth Editon. United States Of America:
+     John Wiley & Sons.
+[20] Sitorus, Lamhot. 2015. Algoritma dan Pemrograman. Yogyakarta: Penerbit Andi.
+[21] Situmorang, H. 2016. Sistem Pendukung Keputusan Pemilihan Calon Peserta Olimpiade Sains
+     Tingkat Kabupaten Langkat Pada Madrasah Aliyah Negeri (Man) 2 Tanjung Pura
+     Denganmenggunakan Metode Simple Additive Weighting (Saw). Jurnal Times, 4(2), 24-30.
+
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+ISSN: 2528-0082                                                                               382
+
+[22] Stair, Ralph M; & Reynolds, George W. 2012. Fundamentals of Information System, Sixth Edition.
+     Boston: Course Technology
+[23] Sulastri Heni; & Acep Irham Gufroni. 2017. Penerapan Data Mining Dalam Pengkelompokan
+     Penderita Thalassaemia. Jurnal Nasional Teknologi dan Sistem Informasi, Volume 3, Nomor 2,
+     Tasikmalaya: Universitas Siliwangi.
+[24] Sulianta Feri; & Dominikus Juju. 2010. Data Mining Meramalkan Bisnis Perusahaan. Jakarta:
+     Penerbit PT Elex Media Komputindo.
+[25] Suyanto. 2017. Data Mining untuk Klasifikasi dan Klasterisasi Data. Bandung: Penerbit Informatika
+     Bandung.
+[26] Tri, Retno Vulandari. 2017. Data Mining Teori dan Aplikasi Rapidminer. Yogyakarta: Penerbit
+     Gava Media.
+[27] Tristianty, Selvia Hidajat. 2016. Skala Peminatan Bagi Siswa Sekolah Menengah Kejuruan SMK
+     Negeri 3 Bengkulu. Jurnal Triadik, Volume 15, Nomor 2. Bengkulu : SMK Negeri 3 Kota
+     Bengkulu.
+[28] Turban, E., Aronson; J.E; & Liang, T.P.2005. Decision Support Systems and Intelligent Systems.
+     New Jersey: Pearson Education Inc.
+[29] Turban, Efraim; Rainer, R.Kelly; & Jr., Potter. 2006. Pengantar Teknologi Informasi, edisi ke-
+     3.Terjemah Deny Arnos Kwary, M.Humdan Dewi Fitria Sari. Salemba Infotek, Jakarta.
+
+
+
+
+MANAJEMEN SISTEM INFORMASI Vol. 5, No.3, September 2020
+
