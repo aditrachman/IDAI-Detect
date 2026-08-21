@@ -153,27 +153,29 @@ Data M4 itu parallel — `human_text` dan `machine_text` tiap baris berasal dari
 
 ## 2026-08-21 — M5 — Eksperimen Generalisasi Lintas Domain + Generator
 
-**Hasil Utama: M4 model CATASTROPHIC FAILURE di domain baru — F1 turun dari 0.892 ke 0.144. Overfitting domain terkonfirmasi.**
+**Hasil Utama: Model M4 F1 turun dari 0.892 ke 0.144 (catastrophic failure), rule engine sederhana (F1 0.625) justru LEBIH ROBUST — overfitting ML terkonfirmasi.**
 
-**Tujuan:** Uji generalisasi model stilometri M4 ke domain BUKAN berita (esai/opini) dan generator BUKAN GPT-3.5 (GPT-oss-120b via Groq). Ini gap paling kritis: M4 hanya dilatih di 1 domain (berita) × 1 generator (GPT-3.5).
+**Tujuan:** Uji generalisasi model stilometri M4 ke domain BUKAN berita (esai/opini) dan generator BUKAN GPT-3.5. Ini gap paling kritis: M4 hanya dilatih di 1 domain (berita) × 1 generator (GPT-3.5).
 **Setup:** 30 pasang esai/opini Indonesia (sumber: Kompasiana, Wikipedia CC BY-SA 4.0, media nasional, tulisan akademik ringan) + 30 pasangan AI generated via Groq API (model `openai/gpt-oss-120b`). Folder terpisah: `data/m5_generalization/`. Script: `collect_m5_human.py`, `generate_m5_ai.py`, `m5_experiment.py`.
+**Catatan Deviasi:** Groq free tier tidak menyediakan Llama 3.3 70B (HTTP 404). Diganti ke `openai/gpt-oss-120b` (120B param, free). Hasil tetap valid — yang diuji adalah generalisasi lintas generator, spesifik model bukan kunci.
 
 **Hasil — 3 Pengujian:**
 
 | Test | Accuracy | F1 | Catatan |
 |------|----------|----|---------|
-| 1. Rule Engine v0 → M5 | 66.7% | 0.625 | Baseline — justru lebih baik dari di M4! |
-| **2. Model M4 (no retrain) → M5** | **15.0%** | **0.144** | **CATASTROPHIC FAILURE** — worse dari random (50%) |
-| 3. Retrain M4+M5 (GroupKFold) | 85.3% | 0.853 | Bagus kalau retrained |
-| 3b. Retrain M4+M5 → predict M5 | 65.0% | 0.649 | M5 specific portion |
+| 1. Rule Engine v0 → M5 | 66.7% | 0.625 | Baseline sederhana — **LEBIH ROBUST dari ML** |
+| **2. Model M4 (no retrain) → M5** | **15.0%** | **0.144** | **CATASTROPHIC FAILURE** — worse dari random |
+| 3. Retrain M4+M5 → predict M5 | 65.0% | 0.649 | Retrain nolong tapi masih moderate |
 
-**Delta (M4 no-retrain vs retrained): -0.709** — Overfitting domain parah.
+**Delta utama:**
+- M4 no-retrain vs retrained: **+0.505** (dari 0.144 ke 0.649) — retrain wajib
+- **Rule Engine vs M4 no-retrain: +0.481** — rule engine SEDERHANA lebih baik dari ML overfit
 
 **Analisis:**
-1. ⚠️ **Model M4 CATASTROPHIC FAILURE** — F1 turun dari 0.892 (M4 test) ke 0.144 (M5). Ini BUKAN sedikit turun, ini GAGAL TOTAL. Model belajar pola spesifik domain berita × GPT-3.5, bukan pola stilistik AI-vs-manusia yang universal.
-2. ⚠️ **Rule engine justru lebih stabil** — F1 0.625 di M5 vs 0.33 di M4. Rule engine yang sederhana lebih robust karena gak overfit ke domain tertentu. Sinyal-sinyalnya (meski lemah) masih punya sedikit daya diskriminasi di domain lain.
-3. ⭐ **Retrained model bagus** — F1 0.853 (GroupKFold) menunjukkan bahwa dengan data campuran, model bisa belajar fitur yang lebih general. Tapi ini baru 60 sampel M5 — perlu lebih banyak data untuk klaim robust.
-4. ⭐ **Temuan penting untuk skripsi:** Model ML untuk deteksi AI TIDAK otomatis generalize lintas domain/generator. Setiap kombinasi domain×generator mungkin perlu data pelatihan tersendiri. Ini argumen kuat untuk: (a) multi-domain training, (b) domain adaptation, atau (c) pendekatan feature-based yang lebih robust.
+1. ⚠️ **Model M4 CATASTROPHIC FAILURE** — F1 turun dari 0.892 (M4 test) ke 0.144 (M5). Model belajar pola spesifik domain berita × GPT-3.5, bukan pola stilistik AI-vs-manusia yang universal.
+2. ⚠️ **RULE ENGINE > ML OVERFIT** — Rule engine sederhana (F1 0.625) LEBIH BAIK dari model ML tanpa retrain (F1 0.144) di data M5. **Temuan penting untuk skripsi:** ML yang overfit ke domain training BISA LEBIH JELEK dari baseline sederhana saat dihadapkan data di luar domainnya. Ini bukan cuma "ML gagal generalize" — ini "ML overfit aktif merusak performa di domain baru".
+3. ⭐ **Retrain moderate** — F1 0.649 (predict M5 only) menunjukkan retrain nolong, tapi gap masih besar dari M4 internal (0.892). Data M5 baru 60 sampel — perlu lebih banyak untuk klaim robust.
+4. ⭐ **Temuan untuk skripsi:** Model ML untuk deteksi AI TIDAK otomatis generalize lintas domain/generator. Setiap kombinasi domain×generator mungkin perlu data pelatihan tersendiri. Argumen kuat untuk: (a) multi-domain training, (b) domain adaptation, atau (c) pendekatan feature-based yang lebih robust.
 
 **Sumber Data M5:**
 - 30 teks manusia: Kompasiana (user-generated, fair use), Wikipedia Indonesia (CC BY-SA 4.0), opini media nasional (fair use), tulisan akademik ringan (fair use)
@@ -182,8 +184,9 @@ Data M4 itu parallel — `human_text` dan `machine_text` tiap baris berasal dari
 
 **Rekomendasi:**
 → **Model M4 TIDAK BISA dipakai langsung untuk domain/generator lain** — F1 0.144 = useless.
-→ **Solusi:** (a) Multi-domain training dengan data lebih banyak, (b) domain adaptation techniques, atau (c) feature engineering yang lebih domain-agnostic.
-→ **Untuk skripsi:** Temuan overfitting ini JUSTRU temuan penting — menunjukkan batasan pendekatan ML saat ini dan membuka jalur riset lebih lanjut.
+→ **Rule engine lebih stabil** — meski F1 rendah di M4 (0.33), di M5 justru naik ke 0.625. Sinyal sederhana lebih robust dari model overfit.
+→ **Solusi ML:** (a) Multi-domain training dengan data lebih banyak, (b) domain adaptation techniques, atau (c) feature engineering yang lebih domain-agnostic.
+→ **Untuk skripsi:** Temuan "rule engine > ML overfit" ini argumen kuat — tidak semua kompleksitas menghasilkan performa lebih baik.
 
 ---
 

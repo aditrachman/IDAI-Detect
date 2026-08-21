@@ -155,7 +155,7 @@ def main():
     all_names = feat_names + [f"ngram_{n}" for n in range(200)]
 
     # ── Test 1: Rule Engine on M5
-    test_rule_engine(m5_texts, m5_labels, "M5 (esai, GPT-oss)")
+    acc1, f1_1 = test_rule_engine(m5_texts, m5_labels, "M5 (esai, GPT-oss)")
 
     # ── Test 2: M4 model (no retrain) → predict M5
     print(f"\n{'#'*60}")
@@ -205,7 +205,7 @@ def main():
     print(f"{'='*60}")
     print(f"{'Test':<45} {'Accuracy':>10} {'F1':>10}")
     print(f"{'─'*65}")
-    print(f"{'1. Rule Engine v0 → M5':<45} {'—':>10} {'—':>10}")
+    print(f"{'1. Rule Engine v0 → M5':<45} {acc1:>10.4f} {f1_1:>10.4f}")
     print(f"{'2. Model M4 (no retrain) → M5':<45} {acc2:>10.4f} {f1_2:>10.4f}")
     print(f"{'3. Retrain M4+M5 (GroupKFold)':<45} {acc3:>10.4f} {f1_3:>10.4f}")
     print(f"{'3b. Retrain M4+M5 → predict M5':<45} {acc_m5:>10.4f} {f1_m5:>10.4f}")
@@ -219,6 +219,11 @@ def main():
         print("⚠️  Moderate domain gap: ada penurunan signifikan tapi masih usable.")
     else:
         print("✅ Generalisasi cukup baik: gap kecil antara no-retrain dan retrained.")
+
+    delta_rule_ml = f1_1 - f1_2
+    print(f"\nDelta (Rule Engine vs M4 no-retrain): {delta_rule_ml:+.4f}")
+    if delta_rule_ml > 0.1:
+        print("⚠️  RULE ENGINE > ML: Model ML overfit BISA LEBIH JELEK dari baseline sederhana di luar domain training.")
 
 if __name__ == "__main__":
     main()
