@@ -1,0 +1,13 @@
+Sumber: Groq API (openai/gpt-oss-120b)
+Topik: Pengaruh televisi terhadap perilaku anak
+Pasangan dari: Tulisan akademik ringan (fair use untuk riset akademik)
+
+Televisi memang sudah menjadi bagian tak terpisahkan dari kehidupan sehari‑hari, termasuk dalam ruang bermain anak‑anak. Dari kartun yang penuh warna hingga iklan yang menampilkan produk mainan, layar kaca menyodorkan rangkaian gambar dan suara yang begitu memikat. Namun, di balik hiburan yang mengalir deras itu, terdapat dampak yang tak selalu positif pada perilaku si kecil.
+
+Pertama, televisi dapat membentuk pola pikir anak tentang dunia. Ketika mereka menonton program yang menonjolkan kekerasan atau persaingan tanpa empati, anak cenderung meniru tindakan tersebut tanpa memahami konsekuensinya. Penelitian menunjukkan bahwa anak yang sering menonton adegan agresif lebih mudah terprovokasi dan sulit mengendalikan amarah. Sebaliknya, konten edukatif yang menampilkan nilai kerja sama, kejujuran, dan rasa ingin tahu dapat menumbuhkan sikap positif yang menempel lama.
+
+Kedua, televisi memengaruhi kebiasaan sosial anak. Waktu yang dihabiskan di depan layar mengurangi kesempatan mereka berinteraksi langsung dengan teman sebaya atau orang tua. Tanpa percakapan tatap muka, kemampuan berkomunikasi dan membaca emosi orang lain bisa terhambat. Anak‑anak yang terbiasa menonton sendirian cenderung lebih introvert dan kurang terbiasa menyelesaikan konflik secara verbal.
+
+Ketiga, iklan yang menargetkan konsumen cilik menimbulkan kebutuhan material yang tidak realistis. Anak belajar menilai diri dari apa yang mereka miliki, bukan dari kepribadian atau prestasi. Akibatnya, mereka menjadi lebih sensitif terhadap perbandingan sosial dan mudah terjebak dalam konsumsi berlebihan.
+
+Pengaruh televisi tidak bersifat mutlak; peran orang tua tetap krusial. Memilih program yang sesuai usia, menonton bersama, dan mengajak berdiskusi tentang apa yang ditonton dapat mengubah layar

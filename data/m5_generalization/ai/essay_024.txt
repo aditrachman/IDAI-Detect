@@ -1,0 +1,11 @@
+Sumber: Groq API (openai/gpt-oss-120b)
+Topik: Peran perpustakaan dalam mendukung literasi
+Pasangan dari: Tulisan akademik ringan (fair use untuk riset akademik)
+
+Perpustakaan sering dipandang sekadar tempat menumpuk buku, namun perannya jauh melampaui itu. Di era digital yang serba cepat, literasi bukan sekadar kemampuan membaca, melainkan juga kemampuan menilai, mengkritisi, dan menghubungkan informasi. Di sinilah perpustakaan berperan sebagai arena kritis yang menumbuhkan kebiasaan membaca yang sadar.
+
+Pertama, perpustakaan menyediakan koleksi yang beragam—dari fiksi klasik hingga jurnal ilmiah—yang memungkinkan pembaca mengeksplorasi berbagai sudut pandang. Tanpa harus mengeluarkan biaya besar, siapa saja bisa mengakses pengetahuan yang mungkin tak terjangkau di rumah. Kedua, ruang fisik perpustakaan menjadi tempat bertemu yang tak tergantikan. Diskusi buku, klub membaca, atau workshop menulis mengubah kegiatan individual menjadi interaksi sosial yang memperkaya cara kita memaknai teks. Interaksi semacam ini menumbuhkan rasa ingin tahu dan kemampuan berargumentasi, dua hal penting dalam literasi kritis.
+
+Selain itu, perpustakaan modern kini mengintegrasikan teknologi: e‑book, portal daring, dan ruang maker. Kombinasi antara koleksi fisik dan digital memberi fleksibilitas bagi generasi muda yang terbiasa beralih layar. Namun, yang paling penting tetap adalah peran pustakawan. Mereka bukan sekadar penjaga rak, melainkan kurator pengetahuan yang membantu pengunjung menemukan sumber yang relevan, melatih teknik pencarian, dan menuntun pemahaman konteks.
+
+Jika literasi dianggap pondasi pembangunan bangsa, maka perpustakaan adalah jembatan yang menghubungkan pengetahuan dengan masyarakat. Menjaga, memperluas, dan menghidupkan kembali fungsi perpustakaan bukan hanya tugas pemerintah atau lembaga, melainkan tanggung jawab bersama. Karena setiap buku yang dibuka, setiap percakapan yang terjalin, menambah lapisan kecerdasan kolektif yang pada akhirnya memperkuat identitas dan daya saing Indonesia.

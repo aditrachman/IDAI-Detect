@@ -1,0 +1,11 @@
+Sumber: Groq API (openai/gpt-oss-120b)
+Topik: Pentingnya menjaga kesehatan mental di tempat kerja
+Pasangan dari: Kompasiana (kompasiana.com)
+
+Kesehatan mental di tempat kerja seringkali terlupakan, padahal ia menjadi pondasi utama bagi produktivitas dan kebahagiaan karyawan. Banyak perusahaan yang masih mengukur keberhasilan hanya lewat angka penjualan atau target yang tercapai, tanpa menanyakan bagaimana perasaan tim yang mencapainya. Padahal, tekanan deadline, ekspektasi tinggi, dan persaingan internal dapat menimbulkan stres kronis, kelelahan, bahkan depresi bila tidak diatasi dengan tepat.
+
+Saat seorang pekerja merasa dihargai, didengar, dan memiliki ruang untuk mengungkapkan beban pikiran, ia cenderung lebih kreatif dan terlibat. Sebaliknya, budaya “kerja tanpa henti” yang menuntut lembur terus‑menerus menimbulkan rasa bersalah bila seseorang ingin beristirahat. Stigma masih menghalangi banyak orang untuk mencari bantuan, karena takut dianggap lemah atau tidak kompeten. Padahal, mengakui kebutuhan akan dukungan mental bukanlah tanda kegagalan, melainkan langkah bijak untuk menjaga diri dan tim.
+
+Perusahaan dapat memulainya dengan menciptakan lingkungan yang terbuka—misalnya, menyediakan sesi konseling, workshop manajemen stres, atau sekadar ruang istirahat yang nyaman. Atasan juga berperan penting: memberi umpan balik yang konstruktif, mengatur beban kerja secara realistis, dan menunjukkan empati ketika ada yang mengalami kesulitan. Kebijakan fleksibel, seperti kerja dari rumah atau jam kerja yang dapat disesuaikan, memberi ruang bagi karyawan menyeimbangkan urusan pribadi dan profesional.
+
+Akhirnya, kesehatan mental bukan sekadar “bonus” bagi perusahaan, melainkan investasi jangka panjang. Ketika karyawan merasa aman secara emosional, mereka tidak

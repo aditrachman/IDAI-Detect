@@ -1,0 +1,11 @@
+Sumber: Groq API (openai/gpt-oss-120b)
+Topik: Peran teknologi dalam pendidikan modern
+Pasangan dari: Tulisan akademik ringan (fair use untuk riset akademik)
+
+Teknologi sudah menjadi napas baru dalam dunia pendidikan, mengubah cara guru mengajar dan siswa belajar menjadi lebih dinamis. Dulu kelas terasa statis, papan tulis menjadi satu‑satunya media visual, dan buku teks menjadi satu‑satunya sumber pengetahuan. Kini, layar sentuh, aplikasi pembelajaran, dan platform daring membuka ruang yang tak terbatas. Siswa tak lagi harus menunggu jam pelajaran untuk memahami konsep; mereka dapat menonton video animasi, simulasi interaktif, atau berdiskusi di forum global kapan saja.  
+
+Bagi guru, teknologi bukan sekadar alat bantu, melainkan katalisator kreativitas. Dengan perangkat lunak presentasi, mereka dapat menyajikan materi dalam bentuk infografis yang memikat, atau mengadakan kuis real‑time yang memberi umpan balik instan. Data yang dihasilkan pula membantu mengidentifikasi kesulitan belajar masing‑masing siswa, sehingga intervensi dapat lebih tepat sasaran.  
+
+Namun, manfaat ini tidak datang tanpa tantangan. Kesenjangan akses masih menjadi penghalang; tidak semua anak di daerah terpencil memiliki koneksi internet yang stabil atau perangkat yang memadai. Selain itu, terlalu bergantung pada layar dapat mengikis kemampuan berpikir kritis dan kolaborasi tatap muka. Oleh karena itu, integrasi teknologi harus dipandang sebagai pelengkap, bukan pengganti interaksi manusia.  
+
+Pada intinya, teknologi memberi pendidikan modern kemampuan untuk menjadi lebih inklusif, adaptif, dan relevan dengan kebutuhan zaman. Jika dipergunakan secara bijak—dengan memperhatikan kualitas konten, pemerataan akses, dan keseimbangan antara digital dan non‑digital—teknologi dapat menjadi jembatan yang menghubungkan potensi setiap pelajar dengan dunia yang terus berubah. Edukasi masa depan bukan sekadar belajar lewat layar, melainkan belajar bersama layar.

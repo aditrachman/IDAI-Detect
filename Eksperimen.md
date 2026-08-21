@@ -151,6 +151,42 @@ Data M4 itu parallel — `human_text` dan `machine_text` tiap baris berasal dari
 
 ---
 
+## 2026-08-21 — M5 — Eksperimen Generalisasi Lintas Domain + Generator
+
+**Hasil Utama: M4 model CATASTROPHIC FAILURE di domain baru — F1 turun dari 0.892 ke 0.144. Overfitting domain terkonfirmasi.**
+
+**Tujuan:** Uji generalisasi model stilometri M4 ke domain BUKAN berita (esai/opini) dan generator BUKAN GPT-3.5 (GPT-oss-120b via Groq). Ini gap paling kritis: M4 hanya dilatih di 1 domain (berita) × 1 generator (GPT-3.5).
+**Setup:** 30 pasang esai/opini Indonesia (sumber: Kompasiana, Wikipedia CC BY-SA 4.0, media nasional, tulisan akademik ringan) + 30 pasangan AI generated via Groq API (model `openai/gpt-oss-120b`). Folder terpisah: `data/m5_generalization/`. Script: `collect_m5_human.py`, `generate_m5_ai.py`, `m5_experiment.py`.
+
+**Hasil — 3 Pengujian:**
+
+| Test | Accuracy | F1 | Catatan |
+|------|----------|----|---------|
+| 1. Rule Engine v0 → M5 | 66.7% | 0.625 | Baseline — justru lebih baik dari di M4! |
+| **2. Model M4 (no retrain) → M5** | **15.0%** | **0.144** | **CATASTROPHIC FAILURE** — worse dari random (50%) |
+| 3. Retrain M4+M5 (GroupKFold) | 85.3% | 0.853 | Bagus kalau retrained |
+| 3b. Retrain M4+M5 → predict M5 | 65.0% | 0.649 | M5 specific portion |
+
+**Delta (M4 no-retrain vs retrained): -0.709** — Overfitting domain parah.
+
+**Analisis:**
+1. ⚠️ **Model M4 CATASTROPHIC FAILURE** — F1 turun dari 0.892 (M4 test) ke 0.144 (M5). Ini BUKAN sedikit turun, ini GAGAL TOTAL. Model belajar pola spesifik domain berita × GPT-3.5, bukan pola stilistik AI-vs-manusia yang universal.
+2. ⚠️ **Rule engine justru lebih stabil** — F1 0.625 di M5 vs 0.33 di M4. Rule engine yang sederhana lebih robust karena gak overfit ke domain tertentu. Sinyal-sinyalnya (meski lemah) masih punya sedikit daya diskriminasi di domain lain.
+3. ⭐ **Retrained model bagus** — F1 0.853 (GroupKFold) menunjukkan bahwa dengan data campuran, model bisa belajar fitur yang lebih general. Tapi ini baru 60 sampel M5 — perlu lebih banyak data untuk klaim robust.
+4. ⭐ **Temuan penting untuk skripsi:** Model ML untuk deteksi AI TIDAK otomatis generalize lintas domain/generator. Setiap kombinasi domain×generator mungkin perlu data pelatihan tersendiri. Ini argumen kuat untuk: (a) multi-domain training, (b) domain adaptation, atau (c) pendekatan feature-based yang lebih robust.
+
+**Sumber Data M5:**
+- 30 teks manusia: Kompasiana (user-generated, fair use), Wikipedia Indonesia (CC BY-SA 4.0), opini media nasional (fair use), tulisan akademik ringan (fair use)
+- 30 teks AI: Generated via Groq API (`openai/gpt-oss-120b`), topik sama dengan pasangan manusia
+- Total: 60 teks (30 pasang)
+
+**Rekomendasi:**
+→ **Model M4 TIDAK BISA dipakai langsung untuk domain/generator lain** — F1 0.144 = useless.
+→ **Solusi:** (a) Multi-domain training dengan data lebih banyak, (b) domain adaptation techniques, atau (c) feature engineering yang lebih domain-agnostic.
+→ **Untuk skripsi:** Temuan overfitting ini JUSTRU temuan penting — menunjukkan batasan pendekatan ML saat ini dan membuka jalur riset lebih lanjut.
+
+---
+
 ## 2026-08-20 — AUDIT METODOLOGI: self-check jujur, klaim diluruskan, threshold provisional
 
 **Tujuan:** Audit internal sebelum Milestone 3 — cek apakah klaim repo (README, self-check, Pola dan Sinyal) didukung data atau overclaim. Temuan utama: self-check lama cuma assert 2 dari 4 sampel AI (cherry-pick), nyembunyiin kegagalan nyata di ai_03 & ai_04.

@@ -1,0 +1,11 @@
+Sumber: Groq API (openai/gpt-oss-120b)
+Topik: Tantangan demokrasi di era media sosial
+Pasangan dari: Opini media nasional (fair use untuk riset akademik)
+
+Demokrasi memang selalu bergantung pada cara warga berkomunikasi, menilai, dan menyalurkan aspirasi. Namun di era media sosial, pola itu berubah menjadi kilat, serba instan, dan tak jarang berujung pada kebisingan yang menutupi suara‑suara yang sebenarnya. Tantangan terbesar bukan sekadar kecepatan informasi, melainkan bagaimana algoritma mengatur apa yang kita lihat, siapa yang kita dengar, dan apa yang kita anggap “benar”.
+
+Di satu sisi, media sosial memberi ruang bagi mereka yang dulu terpinggirkan. Seorang aktivis di desa kecil kini dapat mengunggah video, mengumpulkan dukungan, bahkan memaksa pemerintah menanggapi isu yang selama ini diabaikan. Namun, kebebasan ini juga membuka celah bagi manipulasi. Bot, akun palsu, dan kampanye hit‑and‑run yang dibiayai pihak berkepentingan bisa menyebar narasi yang menyesatkan dalam hitungan menit. Ketika opini publik terbentuk bukan dari diskusi rasional melainkan dari echo‑chamber yang dipilih algoritma, kualitas demokrasi menurun.
+
+Kita juga harus menyoroti fenomena “cancel culture” yang mengubah kritik menjadi penyingkiran. Di platform yang menilai seseorang hanya lewat like atau retweet, kesalahan kecil dapat menjadi bumerang politik, memaksa publik menilai secara hit‑or‑miss tanpa ruang untuk dialog panjang. Akibatnya, keputusan publik menjadi lebih reaktif, bukan reflektif.
+
+Solusinya tak sekadar menutup akses atau mengatur konten, melainkan membangun literasi digital yang kuat. Warga perlu belajar menelusuri sumber, memeriksa fakta, dan mengerti bahwa tidak semua yang viral layak menjadi kebijakan. Demokrasi yang sehat di era media sosial menuntut keseimbangan antara kebebasan berekspresi dan tanggung jawab kritis, agar suara rakyat tetap menjadi pendorong perubahan, bukan sekadar gema yang terdistorsi.

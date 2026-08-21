@@ -1,0 +1,212 @@
+[
+  {
+    "file": "essay_001.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Pendidikan karakter di era digital",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_001.txt"
+  },
+  {
+    "file": "essay_002.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Refleksi perjalanan hidup setelah lulus kuliah",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_002.txt"
+  },
+  {
+    "file": "essay_003.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Pentingnya membaca buku di era digital",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_003.txt"
+  },
+  {
+    "file": "essay_004.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Batik Indonesia — warisan budaya",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_004.txt"
+  },
+  {
+    "file": "essay_005.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Rumah adat Joglo — arsitektur tradisional Jawa",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_005.txt"
+  },
+  {
+    "file": "essay_006.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Tari Kecak Bali — seni pertunjukan",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_006.txt"
+  },
+  {
+    "file": "essay_007.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Tantangan demokrasi di era media sosial",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_007.txt"
+  },
+  {
+    "file": "essay_008.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Pentingnya pelestarian sungai di Indonesia",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_008.txt"
+  },
+  {
+    "file": "essay_009.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Masa depan energi terbarukan di Indonesia",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_009.txt"
+  },
+  {
+    "file": "essay_010.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Pengaruh gadget terhadap perkembangan anak",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_010.txt"
+  },
+  {
+    "file": "essay_011.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Manfaat berolahraga bagi kesehatan mental",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_011.txt"
+  },
+  {
+    "file": "essay_012.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Peran teknologi dalam pendidikan modern",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_012.txt"
+  },
+  {
+    "file": "essay_013.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Pentingnya pendidikan finansial sejak dini",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_013.txt"
+  },
+  {
+    "file": "essay_014.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Dampak urbanisasi terhadap kehidupan masyarakat",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_014.txt"
+  },
+  {
+    "file": "essay_015.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Perubahan pola konsumsi masyarakat Indonesia",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_015.txt"
+  },
+  {
+    "file": "essay_016.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Wayang Kulit — seni pertunjukan Jawa",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_016.txt"
+  },
+  {
+    "file": "essay_017.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Rempah-rempah Indonesia — komoditas bersejarah",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_017.txt"
+  },
+  {
+    "file": "essay_018.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Tantangan pendidikan di daerah terpencil",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_018.txt"
+  },
+  {
+    "file": "essay_019.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Peran Bank Sampah dalam pengelolaan limbah",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_019.txt"
+  },
+  {
+    "file": "essay_020.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Pengaruh musik terhadap perkembangan otak",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_020.txt"
+  },
+  {
+    "file": "essay_021.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Tantangan keamanan siber di Indonesia",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_021.txt"
+  },
+  {
+    "file": "essay_022.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Refleksi tentang pentingnya belajar bahasa asing",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_022.txt"
+  },
+  {
+    "file": "essay_023.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Dampak perubahan iklim terhadap pertanian Indonesia",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_023.txt"
+  },
+  {
+    "file": "essay_024.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Peran perpustakaan dalam mendukung literasi",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_024.txt"
+  },
+  {
+    "file": "essay_025.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Pengalaman belajar daring selama pandemi",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_025.txt"
+  },
+  {
+    "file": "essay_026.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Pentingnya menjaga kesehatan mental di tempat kerja",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_026.txt"
+  },
+  {
+    "file": "essay_027.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Kereta api Indonesia — sejarah transportasi",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_027.txt"
+  },
+  {
+    "file": "essay_028.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Peran UMKM dalam perekonomian Indonesia",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_028.txt"
+  },
+  {
+    "file": "essay_029.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Pengaruh televisi terhadap perilaku anak",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_029.txt"
+  },
+  {
+    "file": "essay_030.txt",
+    "source": "Groq API (openai/gpt-oss-120b)",
+    "topic": "Refleksi tentang pentingnya waktu keluarga",
+    "model": "openai/gpt-oss-120b",
+    "human_pair": "essay_030.txt"
+  }
+]

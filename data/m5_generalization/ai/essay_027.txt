@@ -1,0 +1,11 @@
+Sumber: Groq API (openai/gpt-oss-120b)
+Topik: Kereta api Indonesia — sejarah transportasi
+Pasangan dari: Wikipedia Bahasa Indonesia (id.wikipedia.org)
+
+Kereta api di Indonesia bukan sekadar rangkaian besi yang meluncur di rel; ia adalah saksi bisu perjalanan bangsa dari masa kolonial hingga era modern. Sejak 1867, ketika kereta pertama menghubungkan Semarang‑Tanggung, rel‑rel itu menandai langkah awal transformasi mobilitas di tanah nusantara. Pada awalnya, jaringan dibangun oleh perusahaan Belanda untuk mengangkut hasil perkebunan, namun perlahan‑lahan kereta menjadi jalur penghubung antara kota, desa, bahkan pelosok yang sebelumnya terisolasi.
+
+Masa-masa perjuangan kemerdekaan menambah dimensi baru pada peran kereta. Tentara Republik mengandalkan jalur‑jalur yang ada untuk menggerakkan logistik, sementara pejuang kemerdekaan mengintai kereta sebagai sarana penyebaran berita dan semangat. Setelah merdeka, pemerintah mulai menata ulang jaringan, mengalihkan fokus dari kepentingan kolonial ke kebutuhan rakyat. Pembangunan jalur baru di Jawa, Sumatra, dan Sulawesi menjadi simbol upaya mengintegrasikan wilayah yang luas dan beragam.
+
+Namun, tidak semua perjalanan mulus. Di era 1970‑1990, kereta api mengalami kemerosotan; fasilitas usang, jadwal tak menentu, dan persaingan dengan kendaraan bermotor membuatnya terpinggirkan. Baru pada dekade 2000-an, dengan kebijakan revitalisasi dan investasi asing, kereta api kembali bangkit. Proyek kereta cepat Jakarta‑Bandung, serta modernisasi layanan kereta api lintas pulau, menegaskan bahwa rel masih memiliki tempat strategis dalam mengurangi kemacetan dan emisi.
+
+Sejarah kereta api Indonesia mengajarkan kita bahwa transportasi bukan sekadar sarana, melainkan tulang punggung pembangunan sosial‑ekonomi. Bila dikelola dengan visi jangka panjang, rel‑rel ini dapat terus menghubungkan harapan, memperkuat persatuan
