@@ -57,6 +57,8 @@
 - **Top 3 bobot (em_dash 0.35 + closing 0.20 + enumerasi 0.15 = 0.70)** — SEMUA mati atau hampir mati → skor gabungan otomatis rendah di berita
 - **Sinyal terbalik**: puffery & burstiness justru LEBIH TINGGI di berita daripada akademik → kalau dipakai, malah ngasih skor tinggi ke berita (salah arah)
 
+> ⚠️ **Catatan baseline akademik (n=4):** Kolom "Acad Avg" di atas dihitung dari cuma 4 sampel (ai_01–ai_04). n yang sama kecilnya kayak masalah baseline manusia yang diperbaiki di M2. Klaim komparatif spesifik (misal "em dash normal di akademik 0.69") perlu dianggap **indikatif, bukan final**, sampai n diperbesar. Temuan utama — 7/9 sinyal mati di 100 sampel M4 **nyata** — berdiri sendiri dan gak bergantung pada perbandingan akademik ini.
+
 **Rekomendasi:**
 → **7/9 sinyal MATI TOTAL di domain berita** → **LANJUT ke eksperimen stilometri/ML layer.**
 
