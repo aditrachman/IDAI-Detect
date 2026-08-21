@@ -69,25 +69,41 @@ Rule-based dengan sinyal yang ada **TIDAK cukup** untuk domain berita. Top 3 sin
 ## 2026-08-21 — M4 — Eksperimen Stilometri (Domain Berita): ML vs Rule Engine
 
 **Tujuan:** Uji apakah fitur stilometri mentah (statistik permukaan + char n-gram) bisa klasifikasi AI vs manusia di domain berita — domain yang bikin rule engine v0 gagal total (0/300 AI terdeteksi). Perbandingan apple-to-apple: rule engine vs ML di data yang SAMA (300 pasang M4).
-**Setup:** 300 pasang M4 id-newspaper (seed 42, extend dari 100 pasang M3). Folder terpisah: `data/m4_stylometry/` (gak campur ke self-check baseline). Classifier: Logistic Regression (5-fold stratified CV, class_weight='balanced'). Fitur: 25 statistik permukaan (panjang kalimat/kata mean/std, rasio tanda baca, 20 function words Indonesia) + 200 TF-IDF char n-gram (n=2,3). Script: `stylometry_experiment.py`.
+**Setup:** 300 pasang M4 id-newspaper (seed 42, extend dari 100 pasang M3). Folder terpisah: `data/m4_stylometry/` (gak campur ke self-check baseline). Classifier: Logistic Regression (5-fold CV, class_weight='balanced'). Fitur: 25 statistik permukaan (panjang kalimat/kata mean/std, rasio tanda baca, 20 function words Indonesia) + 200 TF-IDF char n-gram (n=2,3). Script: `stylometry_experiment.py`.
 
-**Hasil — Perbandingan Apple-to-Apple (300 pasang M4):**
+**Hasil Utama — F1 0.892 (GroupKFold, tanpa leakage):**
+- **GroupKFold F1-weighted: 0.892** ± 0.028 — angka JUJUR, tanpa data leakage
+- **StratifiedKFold F1-weighted: 0.898** ± 0.011 — angka LAMA, sedikit leakage (delta 0.007)
+- **Rule Engine v0: F1 0.33** (accuracy 50%, random guess) — baseline pembanding
 
-| Metrik | Rule Engine v0 | ML (Logistic Regression) |
-|--------|----------------|--------------------------|
-| Accuracy | **50.0%** (random) | **89.8%** (CV) |
-| AI detected as AI | 0/300 (0.0%) | ~270/300 (~90%) |
-| Human detected as Human | 300/300 (100%) | ~270/300 (~90%) |
-| F1-weighted | 0.33 | **0.898** |
+**Perbandingan Apple-to-Apple (300 pasang M4):**
 
-Rule engine = random guess (threshold 0.44 gak ada yang nyampe). ML = **18× lipat lebih baik** dari rule engine di domain yang sama.
+| Metrik | Rule Engine v0 | ML (GroupKFold) | ML (Stratified) |
+|--------|----------------|-----------------|-----------------|
+| Accuracy | **50.0%** (random) | **89.2%** | **89.8%** |
+| F1-weighted | 0.33 | **0.892** | **0.898** |
+| AI detected as AI | 0/300 (0.0%) | ~268/300 (~89%) | ~270/300 (~90%) |
 
-**CV Results (5-fold stratified):**
+Rule engine = random guess (threshold 0.44 gak ada yang nyampe). ML = **~18× lipat lebih baik** dari rule engine di domain yang sama.
+
+**CV Results — StratifiedKFold (5-fold):**
 - Accuracy: 0.898 ± 0.011
 - Precision (weighted): 0.900 ± 0.011
 - Recall (weighted): 0.898 ± 0.011
 - F1 (weighted): 0.898 ± 0.011
 - Full-data accuracy: 0.923
+
+**CV Results — GroupKFold (5-fold, group=source_id):** ← angka yang LEBIH VALID
+- Accuracy: 0.892 ± 0.028
+- Precision (weighted): 0.893 ± 0.029
+- Recall (weighted): 0.892 ± 0.028
+- F1 (weighted): **0.892** ± 0.028
+- Full-data accuracy: 0.923
+
+**Kenapa GroupKFold lebih valid:**
+Data M4 itu parallel — `human_text` dan `machine_text` tiap baris berasal dari `source_id`/topik yang SAMA. StratifiedKFold cuma stratify by kelas (AI/human), TAPI gak group by source_id → pasangan human+AI dari topik yang SAMA bisa kesebar ke fold train dan test yang BEDA. Model bisa "curang" nangkep kata-kata spesifik topik (nama, istilah) yang overlap antar pasangan, bukan beneran belajar pola stilistik AI-vs-manusia. GroupKFold memaksa pasangan dari topik yang SAMA masuk fold yang SAMA → gak ada leakage.
+
+**Delta Stratified vs GroupKFold: 0.007** — Leakage ada tapi MINIMAL. Artinya model belajar fitur stilistik beneran (panjang kalimat, function words), bukan kata kunci topik. Fitur topik spesifik gak jadi kontributor signifikan.
 
 **Top-15 Most Influential Features:**
 
@@ -120,16 +136,18 @@ Rule engine = random guess (threshold 0.44 gak ada yang nyampe). ML = **18× lip
 | 5 | fw_itu | -0.528 | Human ↑ | Manusia lebih sering pakai "itu" |
 
 **Temuan Kunci:**
-1. ⭐ **Burstiness (sent_len_std) = fitur paling diskriminatif** — koefisien terbesar (-2.8). Manusia punya variasi panjang kalimat LEBIH BESAR daripada AI. Ini **mengonfirmasi** temuan M3.1 (burstiness inverted di M4 vs akademik) — tapi di ML, burstiness justru jadi pembeda terkuat karena dipakai secara kontinu, bukan threshold biner.
-2. ⭐ **Function words Indonesia** jadi fitur kuat — AI lebih sering pakai "yang", "dan", "dalam", "oleh" (struktur lebih formal/standard). Manusia lebih sering pakai "itu" (lebih conversational).
-3. ⭐ **Word length mean** — AI pakai kata lebih panjang (lebih formal/akademik).
-4. ⭐ **Rule engine MATI TOTAL** di domain berita (0% AI terdeteksi) — threshold 0.44 gak ada yang nyampe. ML mengatasi masalah ini dengan belajar distribusi per-domain.
-5. ⚠️ **Char n-grams** kontribusi kecil tapi stabil — beberapa n-gram mungkin representasi spesifik gaya penulisan berita AI vs manusia.
+1. ⭐ **ML pivot BERHASIL** — GroupKFold F1 0.892 di domain berita, ~18× lebih baik dari rule engine (F1 0.33).
+2. ⭐ **Leakage minimal** — delta Stratified vs GroupKFold cuma 0.007. Model belajar fitur stilistik beneran (panjang kalimat, function words), bukan kata kunci topik.
+3. ⭐ **Burstiness (sent_len_std) = fitur paling diskriminatif** — koefisien terbesar (-2.8). Manusia punya variasi panjang kalimat LEBIH BESAR daripada AI. Ini **mengonfirmasi** temuan M3.1 (burstiness inverted di M4 vs akademik) — tapi di ML, burstiness justru jadi pembeda terkuat karena dipakai secara kontinu, bukan threshold biner.
+4. ⭐ **Function words Indonesia** jadi fitur kuat — AI lebih sering pakai "yang", "dan", "dalam", "oleh" (struktur lebih formal/standard). Manusia lebih sering pakai "itu" (lebih conversational).
+5. ⭐ **Word length mean** — AI pakai kata lebih panjang (lebih formal/akademik).
+6. ⭐ **Rule engine MATI TOTAL** di domain berita (0% AI terdeteksi) — threshold 0.44 gak ada yang nyampe. ML mengatasi masalah ini dengan belajar distribusi per-domain.
+7. ⚠️ **Char n-grams** kontribusi kecil tapi stabil — beberapa n-gram mungkin representasi spesifik gaya penulisan berita AI vs manusia.
 
 **Rekomendasi:**
-→ **ML pivot BERHASIL** — F1 0.898 di domain berita, 18× lebih baik dari rule engine.
+→ **ML pivot BERHASIL** — GroupKFold F1 0.892 di domain berita, ~18× lebih baik dari rule engine. Leakage terkendali (delta 0.007).
 → **Next step:** (a) Validasi lintas domain (apakah model ini generalize ke domain lain?), (b) Validasi lintas generator (apakah Works dengan GPT-4, Claude, Gemini?), (c) Eksperimen dengan lebih banyak fitur / model lebih kompleks kalau perlu.
-→ ⚠️ **Disclaimer:** Ini baru 1 domain (berita) + 1 generator (GPT-3.5-turbo). Belum generalize. Klaim: "ML bisa klasifikasi AI vs manusia di domain berita GPT-3.5-turbo dengan F1 0.898" — bukan "ML sudah selesai".
+→ ⚠️ **Disclaimer:** Ini baru 1 domain (berita) + 1 generator (GPT-3.5-turbo). Belum generalize. Klaim: "ML bisa klasifikasi AI vs manusia di domain berita GPT-3.5-turbo dengan F1 0.892 (GroupKFold)" — bukan "ML sudah selesai".
 
 ---
 

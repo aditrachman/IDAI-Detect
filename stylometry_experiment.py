@@ -14,7 +14,7 @@ from collections import Counter
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import StratifiedKFold, cross_validate
+from sklearn.model_selection import StratifiedKFold, GroupKFold, cross_validate
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -75,17 +75,21 @@ def extract_features(text):
 # ──────────────────────────── Load data
 
 def load_texts():
-    """Load all M4 texts, return (texts, labels, ids)."""
-    texts, labels, ids = [], [], []
+    """Load all M4 texts, return (texts, labels, ids, source_ids).
+    source_id = stem filename (m4_id_XXX) — shared between AI and human pair.
+    """
+    texts, labels, ids, source_ids = [], [], [], []
     for f in sorted((DATA_DIR / "ai").glob("m4_id_*.txt")):
         texts.append(f.read_text(encoding="utf-8"))
         labels.append(1)  # AI
         ids.append(f.stem)
+        source_ids.append(f.stem)  # m4_id_001 — same for AI & human pair
     for f in sorted((DATA_DIR / "human").glob("m4_id_*.txt")):
         texts.append(f.read_text(encoding="utf-8"))
         labels.append(0)  # Human
         ids.append(f.stem)
-    return texts, np.array(labels), ids
+        source_ids.append(f.stem)  # m4_id_001 — same for AI & human pair
+    return texts, np.array(labels), ids, np.array(source_ids)
 
 # ──────────────────────────── Rule engine baseline
 
@@ -128,8 +132,9 @@ def main():
     print("=" * 60)
 
     # Load
-    texts, labels, ids = load_texts()
+    texts, labels, ids, source_ids = load_texts()
     print(f"\nData: {len(texts)} texts ({labels.sum()} AI, {len(labels)-labels.sum()} Human)")
+    print(f"Unique source_ids (topik): {len(np.unique(source_ids))}")
 
     # ── Rule engine baseline (apple-to-apple)
     rule_engine_baseline(texts, labels)
@@ -160,10 +165,6 @@ def main():
 
     print(f"Total features: {X_combined.shape[1]}")
 
-    # ── 5-Fold Stratified CV
-    print(f"\n5-Fold Stratified Cross-Validation...")
-    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-
     pipe = Pipeline([
         ("clf", LogisticRegression(max_iter=1000, class_weight="balanced", random_state=42))
     ])
@@ -175,22 +176,67 @@ def main():
         "f1": "f1_weighted",
     }
 
-    cv_results = cross_validate(pipe, X_combined, labels, cv=cv, scoring=scoring, return_train_score=False)
+    # ── 5-Fold Stratified CV (SEBELUM — result lama, MUNGKIN ada leakage)
+    print(f"\n{'='*60}")
+    print("CV #1: StratifiedKFold (5-fold) — RESULT LAMA, MUNGKIN LEAKED")
+    print(f"{'='*60}")
+    cv_strat = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    results_strat = cross_validate(pipe, X_combined, labels, cv=cv_strat, scoring=scoring, return_train_score=False)
 
     print(f"\n{'─'*60}")
     print(f"{'Metric':<15} {'Mean':>8} {'Std':>8}")
     print(f"{'─'*60}")
     for metric in ["accuracy", "precision", "recall", "f1"]:
-        vals = cv_results[f"test_{metric}"]
+        vals = results_strat[f"test_{metric}"]
         print(f"{metric:<15} {vals.mean():>8.4f} {vals.std():>8.4f}")
     print(f"{'─'*60}")
 
-    # ── Train on full data for coefficient analysis
+    # ── 5-Fold GroupKFold by source_id (BARU — fix leakage)
+    print(f"\n{'='*60}")
+    print("CV #2: GroupKFold (5-fold, group=source_id) — FIX LEAKAGE")
+    print("Pasangan human+ai dari topik SAMA masuk fold SAMA.")
+    print(f"{'='*60}")
+    cv_group = GroupKFold(n_splits=5)
+    results_group = cross_validate(pipe, X_combined, labels, cv=cv_group.split(X_combined, labels, source_ids),
+                                    scoring=scoring, return_train_score=False)
+
+    print(f"\n{'─'*60}")
+    print(f"{'Metric':<15} {'Mean':>8} {'Std':>8}")
+    print(f"{'─'*60}")
+    for metric in ["accuracy", "precision", "recall", "f1"]:
+        vals = results_group[f"test_{metric}"]
+        print(f"{metric:<15} {vals.mean():>8.4f} {vals.std():>8.4f}")
+    print(f"{'─'*60}")
+
+    # ── Perbandingan
+    f1_strat = results_strat["test_f1"].mean()
+    f1_group = results_group["test_f1"].mean()
+    delta = f1_strat - f1_group
+
+    print(f"\n{'='*60}")
+    print("PERBANDINGAN: StratifiedKFold vs GroupKFold")
+    print(f"{'='*60}")
+    print(f"{'Metrik':<15} {'Stratified':>12} {'GroupKFold':>12} {'Delta':>10}")
+    print(f"{'─'*60}")
+    for metric in ["accuracy", "precision", "recall", "f1"]:
+        s = results_strat[f"test_{metric}"].mean()
+        g = results_group[f"test_{metric}"].mean()
+        d = s - g
+        print(f"{metric:<15} {s:>12.4f} {g:>12.4f} {d:>+10.4f}")
+    print(f"{'─'*60}")
+
+    print(f"\nF1 leakage: {f1_strat:.4f} → {f1_group:.4f} (delta: {delta:+.4f})")
+    if delta > 0.05:
+        print(f"⚠️  LEAKAGE TERKONFIRMASI — F1 turun {delta:.3f} setelah fix.")
+        print(f"   Angka yang JUJUR: GroupKFold F1 = {f1_group:.4f}")
+    else:
+        print(f"✅ Leakage minimal (delta < 0.05)")
+
+    # ── Train on full data for coefficient analysis (tetap sama)
     print(f"\nTraining on full data for coefficient analysis...")
     clf = LogisticRegression(max_iter=1000, class_weight="balanced", random_state=42)
     clf.fit(X_combined, labels)
 
-    # Full data accuracy
     full_preds = clf.predict(X_combined)
     full_acc = accuracy_score(labels, full_preds)
     print(f"Full-data accuracy: {full_acc:.4f}")
@@ -219,17 +265,17 @@ def main():
         coef = coefs[idx]
         print(f"  {rank}. {name:<25} {coef:>10.4f}  Human ↑")
 
-    # ── Summary
-    cv_f1 = cv_results["test_f1"].mean()
+    # ── Summary (pakai GroupKFold sebagai angka utama)
     print(f"\n{'='*60}")
-    print("RINGKASAN")
+    print("RINGKASAN (pakai GroupKFold — angka JUJUR)")
     print(f"{'='*60}")
-    print(f"CV F1-weighted: {cv_f1:.4f}")
+    print(f"Stratified F1 (LEAKED): {f1_strat:.4f}")
+    print(f"GroupKFold F1 (JUJUR):  {f1_group:.4f}")
     print(f"Full-data accuracy: {full_acc:.4f}")
-    if cv_f1 > 0.7:
+    if f1_group > 0.7:
         print("→ Model MENJANJIKAN di domain berita (GPT-3.5-turbo)")
         print("  Tapi: baru 1 domain 1 generator — belum generalize.")
-    elif cv_f1 > 0.55:
+    elif f1_group > 0.55:
         print("→ Model LEMAH tapi di atas tebakan — ada sinyal tapi tipis.")
         print("  Perlu feature engineering lebih atau model lebih kuat.")
     else:
