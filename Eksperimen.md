@@ -32,6 +32,38 @@
 
 ---
 
+## 2026-08-21 — M3.1 — Diagnostic Per-Sinyal (Domain Berita)
+
+**Tujuan:** Sebelum mutusin arah (ML pivot vs domain-aware weighting), hitung kontribusi TIAP sinyal individual di domain berita. Murni diagnostic — gak ada tuning.
+**Setup:** `diagnostic_m3_1.py` — jalankan `analyze()` ke 100 sampel M4 AI (`data/ai/m4_id_*.txt`) + 4 sampel akademik (`ai_01..ai_04`). Hitung: % sampel M4 yang sinyalnya = 0/nol (mati), rata-rata nilai sinyal M4 vs akademik, dan weighted contribution.
+**Hasil:**
+
+| Sinyal | Bobot | M4 Mati% | M4 Low% | M4 Avg | Acad Avg | M4×W | Acad×W | Interpretasi |
+|--------|-------|----------|---------|--------|----------|------|--------|--------------|
+| em_dash | 0.35 | **100.0%** | 100.0% | 0.0000 | 0.6904 | 0.0000 | 0.2416 | **MATI TOTAL.** Berita CNN pakai `--` ASCII, bukan em dash `—`. Gaya berita gak pakai appositive em dash. |
+| basabasi | 0.05 | **100.0%** | 100.0% | 0.0000 | 0.0000 | 0.0000 | 0.0000 | **MATI TOTAL.** Expected — basa-basi chat cuma muncul di output chatbot, bukan berita. |
+| closing | 0.20 | **99.0%** | 99.0% | 0.0030 | 0.0266 | 0.0006 | 0.0053 | **HAMPIR MATI.** Berita punya struktur "lead → body → quote", gak ada closing analitik "hasil menunjukkan bahwa...". |
+| kontras | 0.05 | **99.0%** | 99.0% | 0.0050 | 0.0000 | 0.0003 | 0.0000 | **HAMPIR MATI.** Pola "bukan X tapi Y" = gaya argumentatif akademik, gak dipakai di berita. |
+| enumerasi | 0.15 | **89.0%** | 89.0% | 0.0625 | 0.3125 | 0.0094 | 0.0469 | **SEBAGIAN BESAR MATI.** Berita gak pakai "Pertama/Kedua/..." atau "1. 2. 3." — pakai narasi langsung. |
+| puffery | 0.05 | **83.0%** | 83.0% | 0.1635 | 0.0000 | 0.0082 | 0.0000 | **INVERTED.** M4 berita justru LEBIH BANYAK puffery (0.16) daripada akademik (0.00). Berita pakai "menjadi solusi", "di era digital" lebih sering. Sinyal ini **memihak ke berita**, bukan ke AI. |
+| transisi | 0.05 | **82.0%** | 82.0% | 0.0636 | 0.1289 | 0.0032 | 0.0064 | **SEBAGIAN BESAR MATI.** Transisi kaku "selain itu", "dengan demikian" lebih banyak di akademik (0.13) daripada berita (0.06). |
+| hedging | 0.05 | **63.0%** | 63.0% | 0.2141 | 0.3599 | 0.0107 | 0.0180 | **PARTIAL.** Masih muncul di 37% sampel M4 — tapi gak cukup kuat buat diskriminasi (akademik justru lebih tinggi). |
+| burstiness | 0.05 | **0.0%** | 0.0% | 0.9415 | 0.5375 | 0.0471 | 0.0269 | **HIDUP TAPI INVERTED.** Berita punya burstiness LEBIH TINGGI (0.94) daripada akademik (0.54). ChatGPT berita = variasi panjang kalimat lebih variatif. Sinyal ini **memihak ke berita**. |
+
+**Ringkasan:**
+- **7/9 sinyal mati total** (≥80% zero di M4): em_dash, basabasi, closing, kontras, enumerasi, puffery, transisi
+- **1 sinyal partial** (hedging): 63% mati, gak cukup kuat
+- **1 sinyal hidup tapi inverted** (burstiness): justru lebih tinggi di berita, memihak ke kelas "manusia"
+- **Top 3 bobot (em_dash 0.35 + closing 0.20 + enumerasi 0.15 = 0.70)** — SEMUA mati atau hampir mati → skor gabungan otomatis rendah di berita
+- **Sinyal terbalik**: puffery & burstiness justru LEBIH TINGGI di berita daripada akademik → kalau dipakai, malah ngasih skor tinggi ke berita (salah arah)
+
+**Rekomendasi:**
+→ **7/9 sinyal MATI TOTAL di domain berita** → **LANJUT ke eksperimen stilometri/ML layer.**
+
+Rule-based dengan sinyal yang ada **TIDAK cukup** untuk domain berita. Top 3 sinyal (70% bobot) nyaris nol. Domain-aware weighting gak bisa menolong kalau sinyalnya sendiri gak ada di domain ini. ML layer (fitur stilometri mentah + classifier) diperlukan untuk belajar distribusi per-domain dari data besar.
+
+---
+
 ## 2026-08-20 — AUDIT METODOLOGI: self-check jujur, klaim diluruskan, threshold provisional
 
 **Tujuan:** Audit internal sebelum Milestone 3 — cek apakah klaim repo (README, self-check, Pola dan Sinyal) didukung data atau overclaim. Temuan utama: self-check lama cuma assert 2 dari 4 sampel AI (cherry-pick), nyembunyiin kegagalan nyata di ai_03 & ai_04.
