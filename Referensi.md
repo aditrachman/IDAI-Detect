@@ -11,7 +11,7 @@
 
 ## Related work (WAJIB baca + citasi)
 
-- [ ] **Implementation of the BiLSTM Model for Detecting AI-Generated Indonesian Text**, Jurnal Teknologi Informatika dan Komputer (2026) — ⭐ riset Indonesia paling relevan, pembanding utama. Bi-LSTM + CRISP-DM, 5.008 sampel (manusia: scraping jurnalistik + SINTA 4; AI: parafrase ChatGPT & Gemini). Positioning kita: rule-based + explainability / hybrid, bukan black-box
+- [x] **Implementation of the BiLSTM Model for Detecting AI-Generated Indonesian Text**, Jurnal Teknologi Informatika dan Komputer (2026) — ⭐ riset Indonesia paling relevan, pembanding utama. Bi-LSTM + CRISP-DM, 5.008 sampel (manusia: scraping jurnalistik + SINTA 4; AI: parafrase ChatGPT & Gemini). Hasil: 78.24% acc, 93.77% manusia, 62.62% AI akademik. Positioning kita: rule-based + explainability / hybrid, bukan black-box
 - [x] **Wang, Y. et al. (2024). *M4: Multi-Generator, Multi-Domain, and Multi-Lingual Black-Box Machine-Generated Text Detection*. EACL 2024.** — ⭐ sumber dataset utama (github.com/mbzuai-nlp/M4); subset Indonesia (id-newspaper, gpt-3.5-turbo) dipakai di Milestone 3. Best Resource Paper Award EACL 2024
 - [ ] **Roy, R. et al. (2026). *A Comprehensive Dataset for Human vs. AI Generated Text Detection* (Defactify)** — pembanding metodologi, baseline akurasi 58.35%
 - [ ] **RAID Benchmark (2024)** — 7 bahasa termasuk Indonesia, multi-domain multi-LLM
@@ -28,5 +28,5 @@
 
 ## Buat dicari (masih open)
 
-- Isi & metode eksak paper BiLSTM 2026 — harus dibaca detail buat cari celah positioning yang lebih tajam
-- Paper M4 versi lengkap (metodologi, hasil per bahasa)
+- [x] ~~Isi & metode eksak paper BiLSTM 2026 — harus dibaca detail buat cari celah positioning yang lebih tajam~~ → Sudah dibaca: 78.24% acc, 93.77% manusia, 62.62% AI akademik
+- [ ] Paper M4 versi lengkap (metodologi, hasil per bahasa)
